@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("/v1/revenda/{idUsuario}/usuario")
+@RequestMapping("/api/revenda/{idRevenda}/usuario")
 public interface UsuarioAPI {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)

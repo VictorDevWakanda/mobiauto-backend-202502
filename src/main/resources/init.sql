@@ -6,7 +6,7 @@ USE AutoDealDB;
 -- Criação da tabela revenda
 CREATE TABLE IF NOT EXISTS revenda (
     id_revenda BINARY(16) PRIMARY KEY,
-    cnpj VARCHAR(14) NOT NULL UNIQUE,
+    cnpj VARCHAR(18) NOT NULL UNIQUE,
     nome_social VARCHAR(255) NOT NULL
 ) DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
 

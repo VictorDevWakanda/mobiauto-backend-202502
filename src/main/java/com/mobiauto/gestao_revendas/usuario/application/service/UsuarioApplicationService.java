@@ -46,7 +46,7 @@ public class UsuarioApplicationService implements UsuarioService {
 
                     if ((usuarioAutenticado.getCargo() == Cargo.GERENTE
                             || usuarioAutenticado.getCargo() == Cargo.PROPRIETARIO) &&
-                            !usuarioRequest.getIdRevenda().equals(usuarioAutenticado.getRevenda().getIdRevenda())) {
+                            !idRevenda.equals(usuarioAutenticado.getIdRevenda())) {
                         throw APIException.build(HttpStatus.FORBIDDEN,
                                 "Você só pode criar usuários para sua própria Revenda.");
                     }

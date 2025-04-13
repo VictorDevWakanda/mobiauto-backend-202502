@@ -36,17 +36,27 @@ public class Revenda {
     
     @NotBlank
     @CNPJ (message = "CNPJ inválido")
-    @Column(name = "cnpj", unique = true, nullable = false, length = 14)
+    @Column(name = "cnpj", unique = true, nullable = false, length = 18)
     private String cnpj;
 
-    public Revenda(RevendaRequest usuarioRequest) {
-        this.nomeSocial = usuarioRequest.getNomeSocial();
-        this.cnpj = usuarioRequest.getCnpj();
+    public Revenda(RevendaRequest revendaRequest) {
+        this.nomeSocial = revendaRequest.getNomeSocial();
+        this.cnpj = formatarCNPJ(sanitizarCNPJ(revendaRequest.getCnpj()));
     }
 
     public void alteraRevenda(RevendaAlteracaoRequest revendaAlteracaoRequest) {
         this.nomeSocial = revendaAlteracaoRequest.getNomeSocial();
-        this.cnpj = revendaAlteracaoRequest.getCnpj();
+        this.cnpj = formatarCNPJ(sanitizarCNPJ(revendaAlteracaoRequest.getCnpj()));
+    }
+
+    // Remove todos os caracteres não numéricos
+    private String sanitizarCNPJ(String cnpj) {
+        return cnpj.replaceAll("[^\\d]", "");
+    }
+
+    // Método para formatar o CNPJ
+    private String formatarCNPJ(String cnpj) {
+        return cnpj.replaceFirst("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
     }
 
 }

@@ -35,7 +35,7 @@ public class Usuario {
     private UUID idUsuario;
 
     @NotNull
-    @Column(columnDefinition = "BINARY(16)", name = "id_revenda", nullable = false)
+    @Column(name = "id_revenda", nullable = false)
     private UUID idRevenda;
 
     @NotBlank
@@ -52,9 +52,9 @@ public class Usuario {
     @NotBlank
     private Cargo cargo;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_revenda", nullable = false)
-    private Revenda revenda;
+    // @ManyToOne(fetch = FetchType.LAZY)
+    // @JoinColumn(name = "id_revenda", nullable = false)
+    // private Revenda revenda;
 
     public Usuario(UUID idRevenda, UsuarioRequest usuarioRequest) {
         this.idRevenda = idRevenda;

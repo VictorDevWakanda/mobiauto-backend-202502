@@ -39,7 +39,7 @@ public class UsuarioInfraRepository implements UsuarioRepository {
     @Override
     public Page<Usuario> buscaTodosUsuarios(UUID idRevenda, Pageable pageable) {
         log.info("[Inicia] UsuarioInfraRepository - buscaTodosUsuarios");
-        Page<Usuario> todosUsuarios = usuarioSpringDataJPARepository.findByRevendaId(idRevenda, pageable);
+        Page<Usuario> todosUsuarios = usuarioSpringDataJPARepository.findByidRevenda(idRevenda, pageable);
         log.info("[Finaliza] UsuarioInfraRepository - buscaTodosUsuarios");
         return todosUsuarios;
     }

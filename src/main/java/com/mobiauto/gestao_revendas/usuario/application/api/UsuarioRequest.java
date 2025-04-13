@@ -1,6 +1,7 @@
 package com.mobiauto.gestao_revendas.usuario.application.api;
 
-import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
+import java.util.UUID;
+
 import com.mobiauto.gestao_revendas.usuario.domain.Cargo;
 
 import jakarta.validation.constraints.Email;
@@ -18,5 +19,5 @@ public class UsuarioRequest {
     @NotNull
     private Cargo cargo;
     @NotNull
-    private Revenda idRevenda;
+    private UUID idRevenda;
 }
