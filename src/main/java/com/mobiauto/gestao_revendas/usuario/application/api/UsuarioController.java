@@ -1,6 +1,5 @@
 package com.mobiauto.gestao_revendas.usuario.application.api;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
