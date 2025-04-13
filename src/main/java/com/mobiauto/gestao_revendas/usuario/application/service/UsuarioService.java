@@ -9,16 +9,18 @@ import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioListResponse;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioRequest;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioResponse;
 
+import jakarta.validation.Valid;
+
 public interface UsuarioService {
 
-    UsuarioResponse criaUsuario(UsuarioRequest usuarioRequest);
+    UsuarioResponse criaUsuario(UUID idRevenda, @Valid UsuarioRequest usuarioRequest);
 
-    List<UsuarioListResponse> buscaTodosUsuarios();
+    List<UsuarioListResponse> buscaTodosUsuarios(UUID idRevenda);
 
-    UsuarioDetalhadoResponse buscaUsuarioAtravesId(UUID idUsuario);
+    UsuarioDetalhadoResponse buscaUsuarioAtravesId(UUID idRevenda, UUID idUsuario);
 
-    void deletaUsuarioAtravesId(UUID idUsuario);
+    void deletaUsuarioAtravesId(UUID idRevenda, UUID idUsuario);
 
-    void patchAlteraUsuario(UUID idUsuario, UsuarioAlteracaoRequest usuarioAlteracaoRequest);
+    void patchAlteraUsuario(UUID idRevenda, UUID idUsuario, UsuarioAlteracaoRequest usuarioAlteracaoRequest);
 
 }

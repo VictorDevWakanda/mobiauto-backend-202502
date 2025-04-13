@@ -1,6 +1,7 @@
 package com.mobiauto.gestao_revendas.usuario.infra;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -34,9 +35,9 @@ public class UsuarioInfraRepository implements UsuarioRepository {
     }
 
     @Override
-    public List<Usuario> buscaTodosUsuarios() {
+    public List<Usuario> buscaTodosUsuarios(UUID idRevenda) {
         log.info("[Inicia] UsuarioInfraRepository - buscaTodosUsuarios");
-        List<Usuario> todosUsuarios = usuarioSpringDataJPARepository.findAll();
+        List<Usuario> todosUsuarios = usuarioSpringDataJPARepository.findByRevendaId(idRevenda);
         log.info("[Finaliza] UsuarioInfraRepository - buscaTodosUsuarios");
         return todosUsuarios;
     }
@@ -56,6 +57,14 @@ public class UsuarioInfraRepository implements UsuarioRepository {
         log.info("[Inicia] UsuarioInfraRepository - deletaUsuario");
         usuarioSpringDataJPARepository.delete(usuario);
         log.info("[Finaliza] UsuarioInfraRepository - deletaUsuario");
+    }
+
+    @Override
+    public Optional<Usuario> findByEmail(String email) {
+        log.info("[Inicia] UsuarioInfraRepository - deletaUsuario");
+        Optional<Usuario> usuario = usuarioSpringDataJPARepository.findByEmail(email);
+        log.info("[Finaliza] UsuarioInfraRepository - deletaUsuario");
+        return usuario;
     }
 
 }

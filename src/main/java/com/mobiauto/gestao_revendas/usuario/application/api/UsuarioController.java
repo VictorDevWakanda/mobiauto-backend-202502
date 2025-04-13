@@ -18,45 +18,49 @@ public class UsuarioController implements UsuarioAPI {
 
     private final UsuarioService usuarioService;
     private static final String ID_USUARIO_LOG = "[idUsuario] {}";
+    private static final String ID_REVENDA_LOG = "[idRevenda] {}";
 
     @Override
-    public UsuarioResponse postUsuario(UsuarioRequest usuarioRequest) {
+    public UsuarioResponse postUsuario(UUID idRevenda, @Valid UsuarioRequest usuarioRequest) {
         log.info("[Inicia] UsuarioController - postUsuario");
-        UsuarioResponse usuarioCriado = usuarioService.criaUsuario(usuarioRequest);
+        log.info(ID_REVENDA_LOG, idRevenda);
+        UsuarioResponse usuarioCriado = usuarioService.criaUsuario(idRevenda, usuarioRequest);
         log.info("[Finaliza] UsuarioController - postUsuario");
         return usuarioCriado;
     }
 
     @Override
-    public List<UsuarioListResponse> getTodosUsuarios() {
+    public List<UsuarioListResponse> getTodosUsuarios(UUID idRevenda) {
         log.info("[Inicia] UsuarioController - getTodoUsuarios");
-        List<UsuarioListResponse> usuarios = usuarioService.buscaTodosUsuarios();
+        log.info(ID_REVENDA_LOG, idRevenda);
+        List<UsuarioListResponse> usuarios = usuarioService.buscaTodosUsuarios(idRevenda);
         log.info("[Finaliza] UsuarioController - getTodosUsuarios");
         return usuarios;
     }
 
     @Override
-    public UsuarioDetalhadoResponse getUsuarioAtravesId(UUID idUsuario) {
+    public UsuarioDetalhadoResponse getUsuarioAtravesId(UUID idRevenda, UUID idUsuario) {
         log.info("[Inicia] UsuarioController - getUsuarioAtravesId");
-        log.info(ID_USUARIO_LOG, idUsuario);
-        UsuarioDetalhadoResponse usuarioDetalhado = usuarioService.buscaUsuarioAtravesId(idUsuario);
+        log.info(ID_REVENDA_LOG, ID_USUARIO_LOG, idRevenda, idUsuario);
+        UsuarioDetalhadoResponse usuarioDetalhado = usuarioService.buscaUsuarioAtravesId(idRevenda, idUsuario);
         log.info("[Finaliza] UsuarioController - getUsuarioAtravesId");
         return usuarioDetalhado;
     }
 
     @Override
-    public void deletaUsuarioAtravesId(UUID idUsuario) {
+    public void deletaUsuarioAtravesId(UUID idRevenda, UUID idUsuario) {
         log.info("[Inicia] UsuarioController - deletaUsuarioAtravesId");
-        log.info(ID_USUARIO_LOG, idUsuario);
-        usuarioService.deletaUsuarioAtravesId(idUsuario);
+        log.info(ID_REVENDA_LOG, ID_USUARIO_LOG, idRevenda, idUsuario);
+        usuarioService.deletaUsuarioAtravesId(idRevenda, idUsuario);
         log.info("[Finaliza] UsuarioController - deletaUsuarioAtravesId");
     }
 
     @Override
-    public void patchAlteraUsuario(UUID idUsuario, @Valid UsuarioAlteracaoRequest usuarioAlteracaoRequest) {
+    public void patchAlteraUsuario(UUID idRevenda, UUID idUsuario,
+            @Valid UsuarioAlteracaoRequest usuarioAlteracaoRequest) {
         log.info("[Inicia] UsuarioController - patchAlteraUsuario");
-        log.info(ID_USUARIO_LOG, idUsuario);
-        usuarioService.patchAlteraUsuario(idUsuario, usuarioAlteracaoRequest);
+        log.info(ID_REVENDA_LOG, ID_USUARIO_LOG, idRevenda, idUsuario);
+        usuarioService.patchAlteraUsuario(idRevenda, idUsuario, usuarioAlteracaoRequest);
         log.info("[Finaliza] UsuarioController - patchAlteraUsuario");
     }
 
