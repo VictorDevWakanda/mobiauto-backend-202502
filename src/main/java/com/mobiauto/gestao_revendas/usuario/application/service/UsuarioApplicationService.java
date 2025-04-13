@@ -1,9 +1,10 @@
 package com.mobiauto.gestao_revendas.usuario.application.service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -60,19 +61,16 @@ public class UsuarioApplicationService implements UsuarioService {
     }
 
     private Usuario getUsuarioAutenticado() {
-        // Implemente a lógica para buscar o usuário autenticado com base no contexto de
-        // segurança
-        // Exemplo: Use o SecurityContextHolder para obter o usuário logado
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não autenticado."));
     }
 
     @Override
-    public List<UsuarioListResponse> buscaTodosUsuarios(UUID idRevenda) {
+    public Page<UsuarioListResponse> buscaTodosUsuarios(UUID idRevenda, int page, int size) {
         log.info("[Inicia] UsuarioApplicationService - buscaTodosUsuarios");
         revendaService.buscaRevendaPorId(idRevenda);
-        List<Usuario> usuarios = usuarioRepository.buscaTodosUsuarios(idRevenda);
+        Page<Usuario> usuarios = usuarioRepository.buscaTodosUsuarios(idRevenda, PageRequest.of(page, size));
         log.info("[Finaliza] UsuarioApplicationService - buscaTodosUsuarios");
         return UsuarioListResponse.converte(usuarios);
     }

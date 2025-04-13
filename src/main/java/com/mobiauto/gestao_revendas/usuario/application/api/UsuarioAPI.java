@@ -1,6 +1,7 @@
 package com.mobiauto.gestao_revendas.usuario.application.api;
 
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -9,6 +10,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,7 +28,8 @@ public interface UsuarioAPI {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    List<UsuarioListResponse> getTodosUsuarios(@PathVariable UUID idRevenda);
+    Page<UsuarioListResponse> getTodosUsuarios(@PathVariable UUID idRevenda, @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size);
 
     @GetMapping(value = "/{idUsuario}")
     @ResponseStatus(HttpStatus.OK)

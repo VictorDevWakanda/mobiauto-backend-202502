@@ -1,8 +1,8 @@
 package com.mobiauto.gestao_revendas.usuario.application.api;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
 
 import com.mobiauto.gestao_revendas.usuario.domain.Usuario;
 
@@ -14,10 +14,8 @@ public class UsuarioListResponse {
     private String nomeCompleto;
     private String email;
 
-    public static List<UsuarioListResponse> converte(List<Usuario> usuario) {
-        return usuario.stream()
-                .map(UsuarioListResponse::new)
-                .collect(Collectors.toList());
+    public static Page<UsuarioListResponse> converte(Page<Usuario> usuario) {
+        return usuario.map(UsuarioListResponse::new);
     }
 
     public UsuarioListResponse(Usuario usuario) {

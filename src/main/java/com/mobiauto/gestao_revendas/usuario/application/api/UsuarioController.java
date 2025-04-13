@@ -3,6 +3,7 @@ package com.mobiauto.gestao_revendas.usuario.application.api;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mobiauto.gestao_revendas.usuario.application.service.UsuarioService;
@@ -30,10 +31,10 @@ public class UsuarioController implements UsuarioAPI {
     }
 
     @Override
-    public List<UsuarioListResponse> getTodosUsuarios(UUID idRevenda) {
+    public Page<UsuarioListResponse> getTodosUsuarios(UUID idRevenda, int page, int size) {
         log.info("[Inicia] UsuarioController - getTodoUsuarios");
         log.info(ID_REVENDA_LOG, idRevenda);
-        List<UsuarioListResponse> usuarios = usuarioService.buscaTodosUsuarios(idRevenda);
+        Page<UsuarioListResponse> usuarios = usuarioService.buscaTodosUsuarios(idRevenda, page, size);
         log.info("[Finaliza] UsuarioController - getTodosUsuarios");
         return usuarios;
     }

@@ -5,6 +5,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +21,7 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 @RequiredArgsConstructor
 public class UsuarioInfraRepository implements UsuarioRepository {
+
     private final UsuarioSpringDataJPARepository usuarioSpringDataJPARepository;
 
     @Override
@@ -35,9 +38,9 @@ public class UsuarioInfraRepository implements UsuarioRepository {
     }
 
     @Override
-    public List<Usuario> buscaTodosUsuarios(UUID idRevenda) {
+    public Page<Usuario> buscaTodosUsuarios(UUID idRevenda, Pageable pageable) {
         log.info("[Inicia] UsuarioInfraRepository - buscaTodosUsuarios");
-        List<Usuario> todosUsuarios = usuarioSpringDataJPARepository.findByRevendaId(idRevenda);
+        Page<Usuario> todosUsuarios = usuarioSpringDataJPARepository.findByRevendaId(idRevenda, pageable);
         log.info("[Finaliza] UsuarioInfraRepository - buscaTodosUsuarios");
         return todosUsuarios;
     }
