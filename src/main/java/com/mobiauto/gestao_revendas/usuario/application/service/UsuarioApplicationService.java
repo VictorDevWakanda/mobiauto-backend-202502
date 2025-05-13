@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mobiauto.gestao_revendas.handler.APIException;
@@ -31,6 +32,7 @@ public class UsuarioApplicationService implements UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
     private final RevendaService revendaService;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public UsuarioResponse criaUsuario(UUID idRevenda, @Valid UsuarioRequest usuarioRequest) {
@@ -101,6 +103,22 @@ public class UsuarioApplicationService implements UsuarioService {
         usuario.altera(usuarioAlteracaoRequest);
         usuarioRepository.salva(usuario);
         log.info("[Finaliza] UsuarioApplicationService - patchAlteraUsuario");
+    }
+
+    @Override
+    public void alterarUsuarioAdmin(UsuarioAlteracaoRequest usuarioAlteracaoRequest) {
+        log.info("[Inicia] UsuarioApplicationService - alterarUsuarioAdmin");
+
+        // Busca o usuário administrador padrão
+        Usuario usuarioAdmin = usuarioRepository.findByEmail("admin@revenda.com")
+                .orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Usuário administrador não encontrado"));
+
+        // Atualiza os dados do administrador
+        usuarioAdmin.setNomeCompleto(usuarioAlteracaoRequest.getNomeCompleto());
+        usuarioAdmin.setSenha(passwordEncoder.encode(usuarioAlteracaoRequest.getSenha())); // Atualiza a senha
+
+        usuarioRepository.salva(usuarioAdmin);
+        log.info("[Finaliza] UsuarioApplicationService - alterarUsuarioAdmin");
     }
 
 }

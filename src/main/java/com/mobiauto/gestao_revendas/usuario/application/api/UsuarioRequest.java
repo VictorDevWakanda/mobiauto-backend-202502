@@ -20,4 +20,6 @@ public class UsuarioRequest {
     private Cargo cargo;
     @NotNull
     private UUID idRevenda;
+    @NotBlank
+    private String senha;
 }

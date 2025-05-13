@@ -64,4 +64,11 @@ public class UsuarioController implements UsuarioAPI {
         log.info("[Finaliza] UsuarioController - patchAlteraUsuario");
     }
 
+    @Override
+    public void alterarUsuarioAdmin(@Valid UsuarioAlteracaoRequest usuarioAlteracaoRequest) {
+        log.info("[Inicia] UsuarioController - alterarUsuarioAdmin");
+        usuarioService.alterarUsuarioAdmin(usuarioAlteracaoRequest);
+        log.info("[Finaliza] UsuarioController - alterarUsuarioAdmin");
+    }
+
 }

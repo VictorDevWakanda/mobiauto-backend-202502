@@ -2,13 +2,16 @@ package com.mobiauto.gestao_revendas.usuario.domain;
 
 import java.util.UUID;
 
+import org.hibernate.annotations.ManyToAny;
+
 import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioAlteracaoRequest;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioRequest;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -35,8 +38,9 @@ public class Usuario {
     private UUID idUsuario;
 
     @NotNull
-    @Column(name = "id_revenda", nullable = false)
-    private UUID idRevenda;
+    @ManyToOne
+    @JoinColumn(name = "id_revenda", nullable = false)
+    private Revenda idRevenda;
 
     @NotBlank
     @Column(name = "nome_completo")
@@ -50,23 +54,26 @@ public class Usuario {
 
     @NotNull
     @NotBlank
+    @Enumerated(EnumType.STRING)
     private Cargo cargo;
 
-    // @ManyToOne(fetch = FetchType.LAZY)
-    // @JoinColumn(name = "id_revenda", nullable = false)
-    // private Revenda revenda;
+    @NotBlank
+    private String senha;
+
 
     public Usuario(UUID idRevenda, UsuarioRequest usuarioRequest) {
-        this.idRevenda = idRevenda;
+        //TODO this.idRevenda = new Revenda(idRevenda);
         this.nomeCompleto = usuarioRequest.getNomeCompleto();
         this.email = usuarioRequest.getEmail();
         this.cargo = usuarioRequest.getCargo();
+        this.senha = usuarioRequest.getSenha();
     }
 
     public void altera(UsuarioAlteracaoRequest usuarioAlteracaoRequest) {
         this.nomeCompleto = usuarioAlteracaoRequest.getNomeCompleto();
         this.email = usuarioAlteracaoRequest.getEmail();
         this.cargo = usuarioAlteracaoRequest.getCargo();
+        this.senha = usuarioAlteracaoRequest.getSenha();
     }
 
 }

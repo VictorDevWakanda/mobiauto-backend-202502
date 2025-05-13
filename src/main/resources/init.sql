@@ -25,3 +25,8 @@ CREATE TABLE IF NOT EXISTS usuario (
     id_revenda BINARY(16) NOT NULL,
     FOREIGN KEY (id_revenda) REFERENCES revenda (id_revenda)
 ) DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_general_ci;
+
+-- Criação do usuário padrão
+INSERT INTO usuario (id_usuario, nome_completo, email, cargo)
+VALUES (UUID(), 'Administrador', 'admin@revenda.com', 'ADMINISTRADOR')
+ON DUPLICATE KEY UPDATE nome_completo = VALUES(nome_completo), email = VALUES(email);

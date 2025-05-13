@@ -24,4 +24,6 @@ public interface UsuarioService {
 
     void patchAlteraUsuario(UUID idRevenda, UUID idUsuario, UsuarioAlteracaoRequest usuarioAlteracaoRequest);
 
+    void alterarUsuarioAdmin(UsuarioAlteracaoRequest usuarioAlteracaoRequest);
+
 }

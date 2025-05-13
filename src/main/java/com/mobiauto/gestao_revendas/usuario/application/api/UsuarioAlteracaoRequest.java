@@ -14,4 +14,6 @@ public class UsuarioAlteracaoRequest {
     private String email;
     @NotNull
     private Cargo cargo;
+    @NotBlank
+    private String senha;
 }
