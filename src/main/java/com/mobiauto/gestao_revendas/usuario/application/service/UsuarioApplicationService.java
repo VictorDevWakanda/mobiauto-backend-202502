@@ -100,9 +100,17 @@ public class UsuarioApplicationService implements UsuarioService {
         log.info("[Inicia] UsuarioApplicationService - patchAlteraUsuario");
         revendaService.buscaRevendaPorId(idRevenda);
         Usuario usuario = usuarioRepository.buscaUsuarioAtravesId(idUsuario);
+        usuarioAutenticado(usuario);
         usuario.altera(usuarioAlteracaoRequest);
         usuarioRepository.salva(usuario);
         log.info("[Finaliza] UsuarioApplicationService - patchAlteraUsuario");
+    }
+
+    private void usuarioAutenticado(Usuario usuario) {
+        if (!usuario.getCargo().equals(Cargo.ADMINISTRADOR) &&
+                !usuario.getCargo().equals(Cargo.PROPRIETARIO)) {
+            throw APIException.build(HttpStatus.UNAUTHORIZED, "Apenas Usuários Administradores podem alterar usuários.");
+        }
     }
 
     @Override
