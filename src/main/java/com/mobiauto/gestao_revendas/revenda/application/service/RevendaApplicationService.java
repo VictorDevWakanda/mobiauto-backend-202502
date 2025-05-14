@@ -67,6 +67,9 @@ public class RevendaApplicationService implements RevendaService {
                 .orElseThrow(() -> APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não autenticado."));
     }
 
+    // TODO: Depois de criar o endpoint de deletar revenda, verificar se o usuario
+    // tem permissão para deletar. Verificar se precisa fazer semelhante ao
+    // buscaPorId
     @Override
     public void deletaRevendaPorId(UUID idRevenda) {
         log.info("[Inicia] RevendaApplicationService - deletaRevendaPorId");
