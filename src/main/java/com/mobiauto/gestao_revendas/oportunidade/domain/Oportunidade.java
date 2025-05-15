@@ -5,6 +5,7 @@ import java.util.UUID;
 import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
 import com.mobiauto.gestao_revendas.usuario.domain.Usuario;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -28,6 +29,7 @@ import lombok.NoArgsConstructor;
 public class Oportunidade {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(columnDefinition = "BINARY(16)",name = "id_oportunidade", updatable = false, unique = true, nullable = false)
     private UUID idOportunidade;
 
     @Enumerated(EnumType.STRING)

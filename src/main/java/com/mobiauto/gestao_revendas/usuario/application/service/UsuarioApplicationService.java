@@ -11,7 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mobiauto.gestao_revendas.handler.APIException;
+import com.mobiauto.gestao_revendas.revenda.application.api.RevendaDetalhadoResponse;
 import com.mobiauto.gestao_revendas.revenda.application.service.RevendaService;
+import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioAlteracaoRequest;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioDetalhadoResponse;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioListResponse;
@@ -39,6 +41,7 @@ public class UsuarioApplicationService implements UsuarioService {
         log.info("[Inicia] UsuarioApplicationService - criaUsuario");
 
         revendaService.buscaRevendaPorId(idRevenda);
+        revendaInexistente(idRevenda);
         Optional.ofNullable(getUsuarioAutenticado())
                 .ifPresentOrElse(usuarioAutenticado -> {
                     if (usuarioAutenticado.getCargo() == Cargo.ASSISTENTE) {
@@ -60,6 +63,14 @@ public class UsuarioApplicationService implements UsuarioService {
         Usuario usuario = usuarioRepository.salva(new Usuario(idRevenda, usuarioRequest));
         log.info("[Finaliza] UsuarioApplicationService - criaUsuario");
         return new UsuarioResponse(usuario.getIdUsuario());
+    }
+
+    //TODO Se não funcionar corretamente, mudar para Request ou Response
+    private void revendaInexistente(UUID idRevenda) {
+        RevendaDetalhadoResponse revenda = revendaService.buscaRevendaPorId(idRevenda);
+        if (revenda == null) {
+            throw APIException.build(HttpStatus.NOT_FOUND, "Revenda não encontrada.");
+        }
     }
 
     private Usuario getUsuarioAutenticado() {
@@ -109,7 +120,7 @@ public class UsuarioApplicationService implements UsuarioService {
     private void usuarioAutenticado(Usuario usuario) {
         if (!usuario.getCargo().equals(Cargo.ADMINISTRADOR) &&
                 !usuario.getCargo().equals(Cargo.PROPRIETARIO)) {
-            throw APIException.build(HttpStatus.UNAUTHORIZED, "Apenas Usuários Administradores podem alterar usuários.");
+            throw APIException.build(HttpStatus.UNAUTHORIZED, "Apenas .");
         }
     }
 

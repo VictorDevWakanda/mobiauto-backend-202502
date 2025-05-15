@@ -36,7 +36,7 @@ public class RevendaApplicationService implements RevendaService {
         Revenda revenda = revendaRepository.salva(new Revenda(revendaRequest));
         log.info("[Finaliza] RevendaApplicationService - criaRevenda");
         return RevendaResponse.builder()
-                .idRevenda(revenda.getIdRevenda())
+                .cnpj(revenda.getCnpj())
                 .build();
     }
 

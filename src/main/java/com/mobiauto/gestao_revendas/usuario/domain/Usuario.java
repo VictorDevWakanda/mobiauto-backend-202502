@@ -2,9 +2,6 @@ package com.mobiauto.gestao_revendas.usuario.domain;
 
 import java.util.UUID;
 
-import org.hibernate.annotations.ManyToAny;
-
-import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioAlteracaoRequest;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioRequest;
 
@@ -39,8 +36,8 @@ public class Usuario {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "id_revenda", nullable = false)
-    private Revenda idRevenda;
+    @JoinColumn(columnDefinition = "uuid", name = "id_revenda", nullable = false)
+    private UUID idRevenda;
 
     @NotBlank
     @Column(name = "nome_completo")
@@ -62,7 +59,7 @@ public class Usuario {
 
 
     public Usuario(UUID idRevenda, UsuarioRequest usuarioRequest) {
-        //TODO this.idRevenda = new Revenda(idRevenda);
+        this.idRevenda = idRevenda;
         this.nomeCompleto = usuarioRequest.getNomeCompleto();
         this.email = usuarioRequest.getEmail();
         this.cargo = usuarioRequest.getCargo();
