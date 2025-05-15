@@ -2,6 +2,7 @@ package com.mobiauto.gestao_revendas.usuario.domain;
 
 import java.util.UUID;
 
+import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioAlteracaoRequest;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioRequest;
 
@@ -20,10 +21,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Data
@@ -31,13 +30,12 @@ import lombok.NoArgsConstructor;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "BINARY(16)",name = "id_usuario", updatable = false, unique = true, nullable = false)
+    @Column(columnDefinition = "CHAR(36)",name = "id_usuario", updatable = false, unique = true, nullable = false)
     private UUID idUsuario;
 
-    @NotNull
     @ManyToOne
     @JoinColumn(columnDefinition = "uuid", name = "id_revenda", nullable = false)
-    private UUID idRevenda;
+    private Revenda revenda;
 
     @NotBlank
     @Column(name = "nome_completo")
@@ -50,7 +48,6 @@ public class Usuario {
     private String email;
 
     @NotNull
-    @NotBlank
     @Enumerated(EnumType.STRING)
     private Cargo cargo;
 
@@ -58,8 +55,8 @@ public class Usuario {
     private String senha;
 
 
-    public Usuario(UUID idRevenda, UsuarioRequest usuarioRequest) {
-        this.idRevenda = idRevenda;
+    public Usuario(Revenda revenda, UsuarioRequest usuarioRequest) {
+        this.revenda = revenda;
         this.nomeCompleto = usuarioRequest.getNomeCompleto();
         this.email = usuarioRequest.getEmail();
         this.cargo = usuarioRequest.getCargo();

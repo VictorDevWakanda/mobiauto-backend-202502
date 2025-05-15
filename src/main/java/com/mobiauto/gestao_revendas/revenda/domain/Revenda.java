@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 public class Revenda {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "BINARY(16)",name = "id_revenda", updatable = false, unique = true, nullable = false)
+    @Column(columnDefinition = "CHAR(36)",name = "id_revenda", updatable = false, unique = true, nullable = false)
     private UUID idRevenda;
 
     @NotBlank
@@ -38,6 +38,10 @@ public class Revenda {
     @CNPJ (message = "CNPJ inválido")
     @Column(name = "cnpj", unique = true, nullable = false, length = 18)
     private String cnpj;
+
+    public Revenda(UUID idRevenda) {
+        this.idRevenda = idRevenda;
+    }
 
     public Revenda(RevendaRequest revendaRequest) {
         this.nomeSocial = revendaRequest.getNomeSocial();

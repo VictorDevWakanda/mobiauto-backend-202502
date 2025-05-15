@@ -51,16 +51,20 @@ public class UsuarioApplicationService implements UsuarioService {
 
                     if ((usuarioAutenticado.getCargo() == Cargo.GERENTE
                             || usuarioAutenticado.getCargo() == Cargo.PROPRIETARIO) &&
-                            !idRevenda.equals(usuarioAutenticado.getIdRevenda())) {
+                            !idRevenda.equals(usuarioAutenticado.getRevenda().getIdRevenda())){
                         throw APIException.build(HttpStatus.FORBIDDEN,
                                 "Você só pode criar usuários para sua própria Revenda.");
                     }
 
                 }, () -> {
-                    throw APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não autenticado.");
+                    throw APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não autenticado!.");
                 });
+        Revenda revenda = new Revenda(idRevenda);
+        revenda.setIdRevenda(idRevenda);
+        Usuario usuario = new Usuario(revenda, usuarioRequest);
+        usuario.setSenha(passwordEncoder.encode(usuarioRequest.getSenha()));
 
-        Usuario usuario = usuarioRepository.salva(new Usuario(idRevenda, usuarioRequest));
+        usuarioRepository.salva(usuario);
         log.info("[Finaliza] UsuarioApplicationService - criaUsuario");
         return new UsuarioResponse(usuario.getIdUsuario());
     }

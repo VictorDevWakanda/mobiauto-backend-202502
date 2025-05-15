@@ -39,7 +39,7 @@ public class UsuarioInfraRepository implements UsuarioRepository {
     @Override
     public Page<Usuario> buscaTodosUsuarios(UUID idRevenda, Pageable pageable) {
         log.info("[Inicia] UsuarioInfraRepository - buscaTodosUsuarios");
-        Page<Usuario> todosUsuarios = usuarioSpringDataJPARepository.findByidRevenda(idRevenda, pageable);
+        Page<Usuario> todosUsuarios = usuarioSpringDataJPARepository.findByRevenda_IdRevenda(idRevenda, pageable);
         log.info("[Finaliza] UsuarioInfraRepository - buscaTodosUsuarios");
         return todosUsuarios;
     }
@@ -63,9 +63,9 @@ public class UsuarioInfraRepository implements UsuarioRepository {
 
     @Override
     public Optional<Usuario> findByEmail(String email) {
-        log.info("[Inicia] UsuarioInfraRepository - deletaUsuario");
+        log.info("[Inicia] UsuarioInfraRepository - buscaPorEmail");
         Optional<Usuario> usuario = usuarioSpringDataJPARepository.findByEmail(email);
-        log.info("[Finaliza] UsuarioInfraRepository - deletaUsuario");
+        log.info("[Finaliza] UsuarioInfraRepository - buscaPorEmail");
         return usuario;
     }
 

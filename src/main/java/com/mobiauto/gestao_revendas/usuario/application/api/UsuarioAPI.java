@@ -21,7 +21,8 @@ import jakarta.validation.Valid;
 @RestController
 @RequestMapping("/api/revenda/{idRevenda}/usuario")
 public interface UsuarioAPI {
-        @PreAuthorize("hasRole('ADMIN') or hasRole('PROPRIETARIO') and #idRevenda == principal.idRevenda") //Alterar para @idRevenda caso n funcione
+
+        @PreAuthorize("isAuthenticated()")
         @PostMapping()
         @ResponseStatus(HttpStatus.CREATED)
         UsuarioResponse postUsuario(@PathVariable UUID idRevenda, @Valid @RequestBody UsuarioRequest usuarioRequest);
@@ -36,7 +37,7 @@ public interface UsuarioAPI {
         @ResponseStatus(HttpStatus.OK)
         UsuarioDetalhadoResponse getUsuarioAtravesId(@PathVariable UUID idRevenda, UUID idUsuario);
 
-        @PreAuthorize("hasRole('ADMIN')")
+        @PreAuthorize("hasRole('ADMINISTRADOR')")
         @DeleteMapping(value = "/{idUsuario}")
         @ResponseStatus(HttpStatus.NO_CONTENT)
         void deletaUsuarioAtravesId(@PathVariable UUID idRevenda, UUID idUsuario);

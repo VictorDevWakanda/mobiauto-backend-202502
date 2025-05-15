@@ -16,6 +16,7 @@ import com.mobiauto.gestao_revendas.revenda.application.api.RevendaResponse;
 import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
 import com.mobiauto.gestao_revendas.revenda.repository.RevendaRepository;
 import com.mobiauto.gestao_revendas.usuario.application.repository.UsuarioRepository;
+import com.mobiauto.gestao_revendas.usuario.domain.Cargo;
 import com.mobiauto.gestao_revendas.usuario.domain.Usuario;
 
 import lombok.RequiredArgsConstructor;
@@ -36,7 +37,7 @@ public class RevendaApplicationService implements RevendaService {
         Revenda revenda = revendaRepository.salva(new Revenda(revendaRequest));
         log.info("[Finaliza] RevendaApplicationService - criaRevenda");
         return RevendaResponse.builder()
-                .cnpj(revenda.getCnpj())
+                .idRevenda(revenda.getIdRevenda())
                 .build();
     }
 
@@ -52,7 +53,9 @@ public class RevendaApplicationService implements RevendaService {
     public RevendaDetalhadoResponse buscaRevendaPorId(UUID idRevenda) {
         log.info("[Inicia] RevendaApplicationService - buscaRevendaPorId");
         Usuario usuarioAutenticado = getUsuarioAutenticado();
-        if (!usuarioAutenticado.getIdRevenda().equals(idRevenda)) {
+        // Só restringe para quem NÃO for ADMINISTRADOR
+        if (usuarioAutenticado.getCargo() != Cargo.ADMINISTRADOR &&
+                !usuarioAutenticado.getRevenda().getIdRevenda().equals(idRevenda)) {
             throw APIException.build(HttpStatus.FORBIDDEN,
                     "Você só pode buscar informações da sua própria Revenda.");
         }

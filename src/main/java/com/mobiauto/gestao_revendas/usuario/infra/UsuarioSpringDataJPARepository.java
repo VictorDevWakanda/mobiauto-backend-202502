@@ -10,7 +10,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.mobiauto.gestao_revendas.usuario.domain.Usuario;
 
 public interface UsuarioSpringDataJPARepository extends JpaRepository<Usuario, UUID> {
-    Page<Usuario> findByidRevenda(UUID idRevenda, Pageable pageable);
+    Page<Usuario> findByRevenda_IdRevenda(UUID idRevenda, Pageable pageable);
 
     Optional<Usuario> findByEmail(String email);
 
