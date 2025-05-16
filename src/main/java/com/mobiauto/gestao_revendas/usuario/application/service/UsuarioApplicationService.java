@@ -42,23 +42,8 @@ public class UsuarioApplicationService implements UsuarioService {
 
         revendaService.buscaRevendaPorId(idRevenda);
         revendaInexistente(idRevenda);
-        Optional.ofNullable(getUsuarioAutenticado())
-                .ifPresentOrElse(usuarioAutenticado -> {
-                    if (usuarioAutenticado.getCargo() == Cargo.ASSISTENTE) {
-                        throw APIException.build(HttpStatus.FORBIDDEN,
-                                "Assistentes não têm permissão para criar usuários.");
-                    }
-
-                    if ((usuarioAutenticado.getCargo() == Cargo.GERENTE
-                            || usuarioAutenticado.getCargo() == Cargo.PROPRIETARIO) &&
-                            !idRevenda.equals(usuarioAutenticado.getRevenda().getIdRevenda())){
-                        throw APIException.build(HttpStatus.FORBIDDEN,
-                                "Você só pode criar usuários para sua própria Revenda.");
-                    }
-
-                }, () -> {
-                    throw APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não autenticado!.");
-                });
+        Usuario usuarioAutenticado = getUsuarioAutenticado();
+        validaUsuario(usuarioAutenticado, idRevenda);
         Revenda revenda = new Revenda(idRevenda);
         revenda.setIdRevenda(idRevenda);
         Usuario usuario = new Usuario(revenda, usuarioRequest);
@@ -69,7 +54,21 @@ public class UsuarioApplicationService implements UsuarioService {
         return new UsuarioResponse(usuario.getIdUsuario());
     }
 
-    //TODO Se não funcionar corretamente, mudar para Request ou Response
+    public void validaUsuario(Usuario usuarioAutenticado, UUID idRevenda) {
+        if (usuarioAutenticado.getCargo() == Cargo.ASSISTENTE) {
+            throw APIException.build(HttpStatus.FORBIDDEN,
+                    "Assistentes não têm permissão para criar usuários.");
+        }
+
+        if ((usuarioAutenticado.getCargo() == Cargo.GERENTE
+                || usuarioAutenticado.getCargo() == Cargo.PROPRIETARIO) &&
+                !idRevenda.equals(usuarioAutenticado.getRevenda().getIdRevenda())) {
+            throw APIException.build(HttpStatus.FORBIDDEN,
+                    "Você só pode criar usuários para sua própria Revenda.");
+        }
+    }
+
+    // TODO Se não funcionar corretamente, mudar para Request ou Response
     private void revendaInexistente(UUID idRevenda) {
         RevendaDetalhadoResponse revenda = revendaService.buscaRevendaPorId(idRevenda);
         if (revenda == null) {
@@ -77,7 +76,7 @@ public class UsuarioApplicationService implements UsuarioService {
         }
     }
 
-    private Usuario getUsuarioAutenticado() {
+    public Usuario getUsuarioAutenticado() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
         return usuarioRepository.findByEmail(email)
                 .orElseThrow(() -> APIException.build(HttpStatus.UNAUTHORIZED, "Usuário não autenticado."));
