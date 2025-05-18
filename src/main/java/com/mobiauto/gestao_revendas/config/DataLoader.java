@@ -1,53 +1,68 @@
-// package com.mobiauto.gestao_revendas.config;
+package com.mobiauto.gestao_revendas.config;
 
-// import org.springframework.boot.CommandLineRunner;
-// import org.springframework.security.crypto.password.PasswordEncoder;
-// import org.springframework.stereotype.Component;
+import java.util.Optional;
 
-// import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
-// import com.mobiauto.gestao_revendas.revenda.repository.RevendaRepository;
-// import com.mobiauto.gestao_revendas.usuario.application.repository.UsuarioRepository;
-// import com.mobiauto.gestao_revendas.usuario.domain.Cargo;
-// import com.mobiauto.gestao_revendas.usuario.domain.Usuario;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
-// @Component
-// public class DataLoader implements CommandLineRunner {
+import com.mobiauto.gestao_revendas.revenda.application.api.RevendaRequest;
+import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
+import com.mobiauto.gestao_revendas.revenda.repository.RevendaRepository;
+import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioRequest;
+import com.mobiauto.gestao_revendas.usuario.application.repository.UsuarioRepository;
+import com.mobiauto.gestao_revendas.usuario.domain.Cargo;
+import com.mobiauto.gestao_revendas.usuario.domain.Usuario;
 
-//     private final UsuarioRepository usuarioRepository;
-//     private final RevendaRepository revendaRepository;
-//     private final PasswordEncoder passwordEncoder;
+import lombok.extern.log4j.Log4j2;
 
-//     public DataLoader(UsuarioRepository usuarioRepository, RevendaRepository revendaRepository,
-//             PasswordEncoder passwordEncoder) {
-//         this.usuarioRepository = usuarioRepository;
-//         this.revendaRepository = revendaRepository;
-//         this.passwordEncoder = passwordEncoder;
-//     }
+@Component
+@Log4j2
 
-//     @Override
-//     public void run(String... args) throws Exception {
-//         // Cria uma revenda padrão se não existir
-//         String cnpj = "11.111.111/1111-11";
-//         Revenda revenda = revendaRepository.buscaTodasRevendas().stream()
-//                 .filter(r -> r.getCnpj().equals(cnpj))
-//                 .findFirst()
-//                 .orElseGet(() -> {
-//                     Revenda nova = new Revenda();
-//                     nova.setNomeSocial("ADMIN");
-//                     nova.setCnpj(cnpj);
-//                     return revendaRepository.salva(nova);
-//                 });
+public class DataLoader implements CommandLineRunner {
 
-//         // Cria o usuário admin se não existir
-//         if (usuarioRepository.findByEmail("admin@revenda.com").isEmpty()) {
-//             Usuario admin = new Usuario();
-//             admin.setNomeCompleto("Administrador");
-//             admin.setEmail("admin@revenda.com");
-//             admin.setSenha(passwordEncoder.encode("admin")); // Senha criptografada
-//             admin.setCargo(Cargo.ADMINISTRADOR);
-//             admin.setIdRevenda(revenda);
-//             usuarioRepository.salva(admin);
-//             System.out.println("Usuário administrador criado com sucesso!");
-//         }
-//     }
-// }
+    @Value("${admin.email}")
+    private String adminEmail;
+    @Value("${admin.senha}")
+    private String adminSenha;
+
+    private final UsuarioRepository usuarioRepository;
+    private final RevendaRepository revendaRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public DataLoader(UsuarioRepository usuarioRepository, RevendaRepository revendaRepository,
+            PasswordEncoder passwordEncoder) {
+        this.usuarioRepository = usuarioRepository;
+        this.revendaRepository = revendaRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
+
+    @Override
+    public void run(String... args) {
+        // Cria uma revenda padrão se não existir
+        String cnpj = "12.345.678/0001-95";
+        Revenda revenda = revendaRepository.buscaTodasRevendas(org.springframework.data.domain.PageRequest.of(0, 1))
+                .stream().findFirst().orElse(null);
+        if (revenda == null) {
+            RevendaRequest revendaRequest = new RevendaRequest("Revenda Padrão", cnpj);
+            Revenda novaRevenda = new Revenda(revendaRequest);
+            revenda = revendaRepository.salva(novaRevenda);
+        }
+
+        // Cria o usuário admin se não existir
+        Optional<Usuario> adminOpt = usuarioRepository.findByEmail(adminEmail);
+        if (adminOpt.isEmpty()) {
+            UsuarioRequest usuarioRequest = new UsuarioRequest(
+                "Administrador",
+                "admin@revenda.com",
+                Cargo.ADMINISTRADOR,
+                revenda.getIdRevenda().toString(),
+                passwordEncoder.encode(adminSenha)
+            );
+            Usuario admin = new Usuario(revenda, usuarioRequest);
+            usuarioRepository.salva(admin);
+            log.debug("Usuário administrador criado com sucesso!");
+        }
+    }
+}

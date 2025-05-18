@@ -28,20 +28,20 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "oportunidade")
 public class Oportunidade {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "BINARY(16)", name = "id_oportunidade", updatable = false, unique = true, nullable = false)
+    @Column(columnDefinition = "CHAR(36)", name = "id_oportunidade", updatable = false, unique = true, nullable = false)
     private UUID idOportunidade;
 
     @Version
     private Long version;
-    
+
     @Enumerated(EnumType.STRING)
     private StatusOportunidade status;
-    
+
     private String motivoConclusao;
-    
+
     @ManyToOne
     private Usuario responsavel;
 
@@ -51,7 +51,7 @@ public class Oportunidade {
     @NotNull
     @Embedded
     private Veiculo veiculo;
-    
+
     @NotNull
     @Embedded
     private Cliente cliente;
@@ -59,7 +59,6 @@ public class Oportunidade {
     private LocalDateTime dataAtribuicao;
 
     private LocalDateTime dataConclusao;
-
 
     public Oportunidade(Revenda revenda, Usuario responsavel, OportunidadeRequest oportunidadeRequest) {
         this.status = StatusOportunidade.NOVO;
@@ -71,7 +70,6 @@ public class Oportunidade {
         this.dataAtribuicao = LocalDateTime.now();
     }
 
-
     public void atualiza(Revenda revenda, Usuario responsavel, OportunidadeRequest oportunidadeRequest) {
         this.status = StatusOportunidade.NOVO;
         this.motivoConclusao = oportunidadeRequest.getMotivoConclusao();
@@ -79,6 +77,9 @@ public class Oportunidade {
         this.revenda = revenda;
         this.veiculo = oportunidadeRequest.getVeiculo();
         this.cliente = oportunidadeRequest.getCliente();
+        if (this.status == StatusOportunidade.CONCLUIDO) {
+            this.dataConclusao = LocalDateTime.now();
+        }
     }
 
 }

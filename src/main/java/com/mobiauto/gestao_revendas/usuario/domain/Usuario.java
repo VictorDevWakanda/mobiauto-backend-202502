@@ -38,13 +38,13 @@ public class Usuario {
     private Revenda revenda;
 
     @NotBlank
-    @Column(name = "nome_completo")
+    @Column(name = "nome_completo", length = 50)
     private String nomeCompleto;
 
     @NotBlank
     @NotNull
     @Email
-    @Column(unique = true)
+    @Column(unique = true, length = 50)
     private String email;
 
     @NotNull
@@ -52,6 +52,7 @@ public class Usuario {
     private Cargo cargo;
 
     @NotBlank
+    @Column(length = 100)
     private String senha;
 
 

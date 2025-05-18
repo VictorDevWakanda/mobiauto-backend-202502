@@ -1,5 +1,8 @@
 package com.mobiauto.gestao_revendas.oportunidade.application.service;
 
+import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -39,15 +42,34 @@ public class OportunidadeApplicationService implements OportunidadeService {
         if (oportunidadeRequest.getCliente() == null || oportunidadeRequest.getVeiculo() == null) {
             throw APIException.build(HttpStatus.BAD_REQUEST, "Dados do cliente e veículo são obrigatórios.");
         }
-
+        // escolhe Assistente Para Oportunidade (idRevenda);
         Revenda revenda = revendaRepository.buscaRevendaPorId(idRevenda);
-        Usuario responsavel = usuarioRepository.buscaUsuarioAtravesId(
-                oportunidadeRequest.getResponsavel().getIdUsuario());
 
+        Usuario responsavel;
+        if (oportunidadeRequest.getResponsavel() == null) {
+            responsavel = escolheAssistenteParaOportunidade(idRevenda);
+        } else {
+            responsavel = usuarioRepository.buscaUsuarioAtravesId(
+                    oportunidadeRequest.getResponsavel().getIdUsuario());
+        }
         Oportunidade oportunidade = new Oportunidade(revenda, responsavel, oportunidadeRequest);
+        oportunidade.setDataAtribuicao(LocalDateTime.now());
         oportunidadeRepository.salva(oportunidade);
         log.info("[finaliza] OportunidadeApplicationService - criaOportunidade");
         return new OportunidadeResponse(oportunidade.getIdOportunidade());
+    }
+
+    private Usuario escolheAssistenteParaOportunidade(UUID idRevenda) {
+        List<Usuario> assistentes = usuarioApplicationService.buscaAssistentesPorRevenda(idRevenda);
+        return assistentes.stream()
+                .sorted(Comparator
+                        .comparingInt(
+                                (Usuario u) -> oportunidadeRepository.countOportunidadesEmAndamento(u.getIdUsuario()))
+                        .thenComparing(u -> oportunidadeRepository.ultimaDataAtribuicao(u.getIdUsuario()),
+                                Comparator.nullsFirst(Comparator.naturalOrder())))
+                .findFirst()
+                .orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND,
+                        "Nenhum assistente disponível para atribuição."));
     }
 
     @Override
@@ -98,5 +120,20 @@ public class OportunidadeApplicationService implements OportunidadeService {
             return;
         }
         throw APIException.build(HttpStatus.FORBIDDEN, "Você não tem permissão para editar/excluir esta oportunidade.");
+    }
+
+    public void transferirOportunidade(UUID idRevenda, UUID idOportunidade, UUID idNovoResponsavel) {
+        Usuario usuarioAutenticado = usuarioApplicationService.getUsuarioAutenticado();
+        Oportunidade oportunidade = oportunidadeRepository.buscaOportunidadePorId(idOportunidade);
+        if (!(usuarioAutenticado.getCargo().name().equals("GERENTE")
+                || usuarioAutenticado.getCargo().name().equals("PROPRIETARIO"))
+                || !usuarioAutenticado.getRevenda().getIdRevenda().equals(idRevenda)) {
+            throw APIException.build(HttpStatus.FORBIDDEN,
+                    "Apenas gerente ou proprietário podem transferir oportunidades.");
+        }
+        Usuario novoResponsavel = usuarioRepository.buscaUsuarioAtravesId(idNovoResponsavel);
+        oportunidade.setResponsavel(novoResponsavel);
+        oportunidade.setDataAtribuicao(LocalDateTime.now());
+        oportunidadeRepository.salva(oportunidade);
     }
 }

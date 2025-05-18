@@ -2,7 +2,6 @@ package com.mobiauto.gestao_revendas.usuario.application.api;
 
 import java.util.UUID;
 
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;

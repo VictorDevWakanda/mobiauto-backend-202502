@@ -1,5 +1,7 @@
 package com.mobiauto.gestao_revendas.oportunidade.infra;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import com.mobiauto.gestao_revendas.handler.APIException;
 import com.mobiauto.gestao_revendas.oportunidade.application.repository.OportunidadeRepository;
 import com.mobiauto.gestao_revendas.oportunidade.domain.Oportunidade;
+import com.mobiauto.gestao_revendas.oportunidade.domain.StatusOportunidade;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -38,7 +41,8 @@ public class OportunidadeInfraRepository implements OportunidadeRepository {
     @Override
     public Page<Oportunidade> buscaOportunidades(UUID idRevenda, Pageable pageable) {
         log.info("[Inicia] OportunidadeInfraRepository - buscaOportunidades");
-        Page<Oportunidade> oportunidades = oportunidadeSpringDataJPARepository.findByRevenda_IdRevenda(idRevenda, pageable);
+        Page<Oportunidade> oportunidades = oportunidadeSpringDataJPARepository.findByRevenda_IdRevenda(idRevenda,
+                pageable);
         log.info("[Finaliza] OportunidadeInfraRepository - buscaOportunidades");
         return oportunidades;
     }
@@ -62,6 +66,19 @@ public class OportunidadeInfraRepository implements OportunidadeRepository {
             throw APIException.build(HttpStatus.BAD_REQUEST, "Oportunidade não pode ser deletada!", e);
         }
         log.info("[Finaliza] OportunidadeInfraRepository - deleta");
+    }
+
+    @Override
+    public int countOportunidadesEmAndamento(UUID idUsuario) {
+        return (int) oportunidadeSpringDataJPARepository.countByResponsavel_IdUsuarioAndStatusIn(idUsuario,
+                List.of(StatusOportunidade.NOVO, StatusOportunidade.EM_ATENDIMENTO));
+    }
+
+    @Override
+    public LocalDateTime ultimaDataAtribuicao(UUID idUsuario) {
+        return oportunidadeSpringDataJPARepository.findTopByResponsavel_IdUsuarioOrderByDataAtribuicaoDesc(idUsuario)
+                .map(Oportunidade::getDataAtribuicao)
+                .orElse(null);
     }
 
 }

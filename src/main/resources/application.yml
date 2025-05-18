@@ -11,8 +11,17 @@ spring:
   jpa:
     database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
-      ddl-auto: update
+      ddl-auto: update  #create-drop
     show-sql: true
+    properties:
+      hibernate:
+        id:
+          new_generator_mappings: false
+        jdbc:
+          lob:
+            new_contextual_creation: true
+        type:
+          preferred_uuid_jdbc_type: CHAR
 
 logging:
   level:
@@ -22,5 +31,9 @@ logging:
     logging:
       level:
         org.springframework.security: DEBUG
+
+admin:
+  email: admin@revenda.com
+  senha: admin
 
 

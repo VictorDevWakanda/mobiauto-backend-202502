@@ -1,5 +1,6 @@
 package com.mobiauto.gestao_revendas.usuario.application.service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -141,6 +142,11 @@ public class UsuarioApplicationService implements UsuarioService {
 
         usuarioRepository.salva(usuarioAdmin);
         log.info("[Finaliza] UsuarioApplicationService - alterarUsuarioAdmin");
+    }
+
+    public List<Usuario> buscaAssistentesPorRevenda(UUID idRevenda) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'buscaAssistentesPorRevenda'");
     }
 
 }

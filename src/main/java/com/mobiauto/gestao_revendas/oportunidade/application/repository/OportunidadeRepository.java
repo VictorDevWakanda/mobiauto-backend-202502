@@ -1,5 +1,6 @@
 package com.mobiauto.gestao_revendas.oportunidade.application.repository;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -16,5 +17,9 @@ public interface OportunidadeRepository {
     Oportunidade buscaOportunidadePorId(UUID idOportunidade);
 
     void deleta(UUID idOportunidade);
+
+    int countOportunidadesEmAndamento(UUID idUsuario);
+
+    LocalDateTime ultimaDataAtribuicao(UUID idUsuario);
 
 }

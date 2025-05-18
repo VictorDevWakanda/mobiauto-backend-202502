@@ -18,7 +18,6 @@ public class OportunidadeRequest {
     private StatusOportunidade status;
     @NotNull
     private String motivoConclusao;
-    @NotNull
     private Usuario responsavel;
     @NotNull
     private Revenda revenda;
