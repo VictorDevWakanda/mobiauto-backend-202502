@@ -103,7 +103,7 @@ public class UsuarioApplicationService implements UsuarioService {
     @Override
     public void deletaUsuarioAtravesId(UUID idRevenda, UUID idUsuario) {
         log.info("[Inicia] UsuarioApplicationService - deletaUsuarioAtravesId");
-        revendaService.buscaRevendaPorId(idUsuario);
+        revendaService.buscaRevendaPorId(idRevenda);
         Usuario usuario = usuarioRepository.buscaUsuarioAtravesId(idUsuario);
         usuarioRepository.deletaUsuario(usuario);
         log.info("[Finaliza] UsuarioApplicationService - deletaUsuarioAtravesId");

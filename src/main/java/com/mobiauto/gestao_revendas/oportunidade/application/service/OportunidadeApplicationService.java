@@ -36,11 +36,6 @@ public class OportunidadeApplicationService implements OportunidadeService {
     @Override
     public OportunidadeResponse criaOportunidade(UUID idRevenda, OportunidadeRequest oportunidadeRequest) {
         log.info("[inicia] OportunidadeApplicationService - criaOportunidade");
-        Usuario usuarioAutenticado = usuarioApplicationService.getUsuarioAutenticado();
-        //validaPermissaoEdicao(usuarioAutenticado, oportunidade);
-
-        //usuarioApplicationService.validaUsuario(usuarioAutenticado, idRevenda);
-
         if (oportunidadeRequest.getCliente() == null || oportunidadeRequest.getVeiculo() == null) {
             throw APIException.build(HttpStatus.BAD_REQUEST, "Dados do cliente e veículo são obrigatórios.");
         }
@@ -86,7 +81,6 @@ public class OportunidadeApplicationService implements OportunidadeService {
     public void deletaOportunidade(UUID idRevenda, UUID idOportunidade) {
         log.info("[inicia] OportunidadeApplicationService - deletaOportunidade");
         Usuario usuarioAutenticado = usuarioApplicationService.getUsuarioAutenticado();
-        //usuarioApplicationService.validaUsuario(usuarioAutenticado, idRevenda);
         revendaRepository.buscaRevendaPorId(idRevenda);
         Oportunidade oportunidade = oportunidadeRepository.buscaOportunidadePorId(idOportunidade);
         validaPermissaoEdicao(usuarioAutenticado, oportunidade);
@@ -100,7 +94,6 @@ public class OportunidadeApplicationService implements OportunidadeService {
                 && usuarioAutenticado.getRevenda().getIdRevenda().equals(oportunidade.getRevenda().getIdRevenda())) {
             return;
         }
-        // Se for o responsável, pode editar
         if (usuarioAutenticado.getIdUsuario().equals(oportunidade.getResponsavel().getIdUsuario())) {
             return;
         }

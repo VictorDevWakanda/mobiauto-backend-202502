@@ -37,12 +37,12 @@ public interface UsuarioAPI {
 
         @GetMapping(value = "/{idUsuario}")
         @ResponseStatus(HttpStatus.OK)
-        UsuarioDetalhadoResponse getUsuarioAtravesId(@PathVariable UUID idRevenda, UUID idUsuario);
+        UsuarioDetalhadoResponse getUsuarioAtravesId(@PathVariable UUID idRevenda, @PathVariable UUID idUsuario);
 
         @PreAuthorize("hasRole('ADMINISTRADOR')")
         @DeleteMapping(value = "/{idUsuario}")
         @ResponseStatus(HttpStatus.NO_CONTENT)
-        void deletaUsuarioAtravesId(@PathVariable UUID idRevenda, UUID idUsuario);
+        void deletaUsuarioAtravesId(@PathVariable UUID idRevenda, @PathVariable UUID idUsuario);
 
         @PatchMapping(value = "/{idUsuario}")
         @ResponseStatus(HttpStatus.NO_CONTENT)
