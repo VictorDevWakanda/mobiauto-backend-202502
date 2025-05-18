@@ -1,5 +1,6 @@
 package com.mobiauto.gestao_revendas.oportunidade.application.api;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.web.bind.annotation.RestController;
@@ -22,6 +23,15 @@ public class OportunidadeController implements OportunidadeAPI {
         OportunidadeResponse novaOportunidade = oportunidadeService.criaOportunidade(idRevenda, oportunidadeRequest);
         log.info("[finaliza] OportunidadeController - postOportunidade");
         return novaOportunidade;
+    }
+
+    @Override
+    public List<OportunidadeListResponse> getOportunidades(UUID idRevenda) {
+        log.info("[inicia] OportunidadeController - getOportunidades");
+        log.info("[idRevenda] {}", idRevenda);
+        List<OportunidadeListResponse> oportunidades = oportunidadeService.buscaOportunidades(idRevenda);
+        log.info("[finaliza] OportunidadeController - getOportunidades");
+        return oportunidades;
     }
 
 

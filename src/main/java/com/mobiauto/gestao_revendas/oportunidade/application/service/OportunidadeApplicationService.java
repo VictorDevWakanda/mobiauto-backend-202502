@@ -1,11 +1,13 @@
 package com.mobiauto.gestao_revendas.oportunidade.application.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.mobiauto.gestao_revendas.handler.APIException;
+import com.mobiauto.gestao_revendas.oportunidade.application.api.OportunidadeListResponse;
 import com.mobiauto.gestao_revendas.oportunidade.application.api.OportunidadeRequest;
 import com.mobiauto.gestao_revendas.oportunidade.application.api.OportunidadeResponse;
 import com.mobiauto.gestao_revendas.oportunidade.application.repository.OportunidadeRepository;
@@ -14,7 +16,6 @@ import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
 import com.mobiauto.gestao_revendas.revenda.repository.RevendaRepository;
 import com.mobiauto.gestao_revendas.usuario.application.repository.UsuarioRepository;
 import com.mobiauto.gestao_revendas.usuario.application.service.UsuarioApplicationService;
-import com.mobiauto.gestao_revendas.usuario.domain.Cargo;
 import com.mobiauto.gestao_revendas.usuario.domain.Usuario;
 
 import lombok.RequiredArgsConstructor;
@@ -51,6 +52,15 @@ public class OportunidadeApplicationService implements OportunidadeService {
 
         log.info("[finaliza] OportunidadeApplicationService - criaOportunidade");
         return new OportunidadeResponse(oportunidade.getIdOportunidade());
+    }
+
+    @Override
+    public List<OportunidadeListResponse> buscaOportunidades(UUID idRevenda) {
+        log.info("[inicia] OportunidadeApplicationService - buscaOportunidades");
+        revendaRepository.buscaRevendaPorId(idRevenda);
+        List<Oportunidade> oportunidades = oportunidadeRepository.buscaOportunidades(idRevenda);
+        log.info("[Finaliza] OportunidadeApplicationService - buscaOportunidades");
+        return OportunidadeListResponse.converte(oportunidades);
     }
 
 }

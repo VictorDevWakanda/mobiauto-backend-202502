@@ -1,5 +1,8 @@
 package com.mobiauto.gestao_revendas.oportunidade.infra;
 
+import java.util.List;
+import java.util.UUID;
+
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
@@ -29,6 +32,14 @@ public class OportunidadeInfraRepository implements OportunidadeRepository {
             throw APIException.build(HttpStatus.BAD_REQUEST, "Oportunidade já existe!", e);
         }
         log.info("[Finaliza] OportunidadeInfraRepository - salva");
+    }
+
+    @Override
+    public List<Oportunidade> buscaOportunidades(UUID idRevenda) {
+        log.info("[Inicia] OportunidadeInfraRepository - buscaOportunidades");
+        List<Oportunidade> oportunidades = oportunidadeSpringDataJPARepository.findByRevenda_IdRevenda(idRevenda);
+        log.info("[Finaliza] OportunidadeInfraRepository - buscaOportunidades");
+        return oportunidades;
     }
 
 }

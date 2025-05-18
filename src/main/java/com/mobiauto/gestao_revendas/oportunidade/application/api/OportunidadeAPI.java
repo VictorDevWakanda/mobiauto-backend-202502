@@ -1,9 +1,11 @@
 package com.mobiauto.gestao_revendas.oportunidade.application.api;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,5 +25,8 @@ public interface OportunidadeAPI {
     @ResponseStatus(HttpStatus.CREATED)
     OportunidadeResponse postOportunidade(@PathVariable UUID idRevenda, @Valid @RequestBody OportunidadeRequest oportunidadeRequest);
 
+    @GetMapping()
+    @ResponseStatus(HttpStatus.OK)
+    List<OportunidadeListResponse> getOportunidades(@PathVariable UUID idRevenda);
 
 }
