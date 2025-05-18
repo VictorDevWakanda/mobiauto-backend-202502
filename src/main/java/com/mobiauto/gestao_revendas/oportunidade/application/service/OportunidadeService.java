@@ -14,4 +14,6 @@ public interface OportunidadeService {
 
     Page<OportunidadeListResponse> buscaOportunidades(UUID idRevenda, int page, int size);
 
+    void alteraOportunidade(UUID idRevenda, UUID idOportunidade, OportunidadeRequest oportunidadeRequest);
+
 }

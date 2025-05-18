@@ -43,4 +43,13 @@ public class OportunidadeInfraRepository implements OportunidadeRepository {
         return oportunidades;
     }
 
+    @Override
+    public Oportunidade buscaOportunidadePorId(UUID idOportunidade) {
+        log.info("[Inicia] OportunidadeInfraRepository - buscaOportunidadePorId");
+        Oportunidade oportunidade = oportunidadeSpringDataJPARepository.findById(idOportunidade)
+                .orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Oportunidade não encontrada!"));
+        log.info("[Finaliza] OportunidadeInfraRepository - buscaOportunidadePorId");
+        return oportunidade;
+    }
+
 }

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mobiauto.gestao_revendas.common.api.PageResponse;
 import com.mobiauto.gestao_revendas.oportunidade.application.service.OportunidadeService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
@@ -33,6 +34,14 @@ public class OportunidadeController implements OportunidadeAPI {
         Page<OportunidadeListResponse> oportunidades = oportunidadeService.buscaOportunidades(idRevenda, page, size);
         log.info("[finaliza] OportunidadeController - getOportunidades");
         return new PageResponse<>(oportunidades);
+    }
+
+    @Override
+    public void patchOportunidade(UUID idRevenda, UUID idOportunidade, @Valid OportunidadeRequest oportunidadeRequest) {
+        log.info("[inicia] OportunidadeController - patchOportunidade");
+        log.info("[idRevenda] {} - [idOportunidade] {}", idRevenda, idOportunidade);
+        oportunidadeService.alteraOportunidade(idRevenda, idOportunidade, oportunidadeRequest);
+        log.info("[finaliza] OportunidadeController - patchOportunidade");
     }
 
 

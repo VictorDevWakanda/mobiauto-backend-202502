@@ -13,4 +13,6 @@ public interface OportunidadeRepository {
 
     Page<Oportunidade> buscaOportunidades(UUID idRevenda, Pageable pageable);
 
+    Oportunidade buscaOportunidadePorId(UUID idOportunidade);
+
 }

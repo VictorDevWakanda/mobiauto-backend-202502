@@ -69,7 +69,16 @@ public class Oportunidade {
         this.veiculo = oportunidadeRequest.getVeiculo();
         this.cliente = oportunidadeRequest.getCliente();
         this.dataAtribuicao = LocalDateTime.now();
-        //this.dataConclusao = LocalDateTime.now();
+    }
+
+
+    public void atualiza(Revenda revenda, Usuario responsavel, OportunidadeRequest oportunidadeRequest) {
+        this.status = StatusOportunidade.NOVO;
+        this.motivoConclusao = oportunidadeRequest.getMotivoConclusao();
+        this.responsavel = responsavel;
+        this.revenda = revenda;
+        this.veiculo = oportunidadeRequest.getVeiculo();
+        this.cliente = oportunidadeRequest.getCliente();
     }
 
 }

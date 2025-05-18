@@ -58,7 +58,7 @@ public class UsuarioApplicationService implements UsuarioService {
     public void validaUsuario(Usuario usuarioAutenticado, UUID idRevenda) {
         if (usuarioAutenticado.getCargo() == Cargo.ASSISTENTE) {
             throw APIException.build(HttpStatus.FORBIDDEN,
-                    "Assistentes não têm permissão para criar usuários.");
+                    "Assistentes não têm permissão para criar ou atualizar usuários.");
         }
 
         if ((usuarioAutenticado.getCargo() == Cargo.GERENTE

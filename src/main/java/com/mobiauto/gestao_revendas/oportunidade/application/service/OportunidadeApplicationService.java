@@ -63,4 +63,20 @@ public class OportunidadeApplicationService implements OportunidadeService {
         return OportunidadeListResponse.converte(oportunidades);
     }
 
+    @Override
+    public void alteraOportunidade(UUID idRevenda, UUID idOportunidade, OportunidadeRequest oportunidadeRequest) {
+        log.info("[inicia] OportunidadeApplicationService - alteraOportunidade");
+        Usuario usuarioAutenticado = usuarioApplicationService.getUsuarioAutenticado();
+        usuarioApplicationService.validaUsuario(usuarioAutenticado, idRevenda);
+
+        Revenda revenda = revendaRepository.buscaRevendaPorId(idRevenda);
+        Usuario responsavel = usuarioRepository.buscaUsuarioAtravesId(
+                oportunidadeRequest.getResponsavel().getIdUsuario());
+
+        Oportunidade oportunidade = oportunidadeRepository.buscaOportunidadePorId(idOportunidade);
+        oportunidade.atualiza(revenda, responsavel, oportunidadeRequest);
+        oportunidadeRepository.salva(oportunidade);
+
+        log.info("[finaliza] OportunidadeApplicationService - alteraOportunidade");
+    }
 }
