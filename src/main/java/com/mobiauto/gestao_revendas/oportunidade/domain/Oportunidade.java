@@ -40,6 +40,7 @@ public class Oportunidade {
     @Enumerated(EnumType.STRING)
     private StatusOportunidade status;
 
+    @Column(length = 100)
     private String motivoConclusao;
 
     @ManyToOne

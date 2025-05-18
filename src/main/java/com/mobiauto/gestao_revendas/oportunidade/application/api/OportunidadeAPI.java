@@ -45,4 +45,9 @@ public interface OportunidadeAPI {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteOportunidade(@PathVariable UUID idRevenda, @PathVariable UUID idOportunidade);
 
+    @PatchMapping
+    @ResponseStatus(HttpStatus.OK)
+        void patchTransfereOportunidade(@PathVariable UUID idRevenda,
+                @RequestParam UUID idOportunidade,
+                @Valid @RequestBody OportunidadeRequest oportunidadeRequest);
 }

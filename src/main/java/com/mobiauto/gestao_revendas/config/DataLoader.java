@@ -62,7 +62,7 @@ public class DataLoader implements CommandLineRunner {
             );
             Usuario admin = new Usuario(revenda, usuarioRequest);
             usuarioRepository.salva(admin);
-            log.debug("Usuário administrador criado com sucesso!");
+            log.info("Usuario administrador criado com sucesso!");
         }
     }
 }

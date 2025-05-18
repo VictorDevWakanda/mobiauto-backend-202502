@@ -1,6 +1,6 @@
 # Gestão de Revendas - API
 
-Este projeto é uma API REST para gestão de revendas, usuários e oportunidades de negócio, construída com Spring Boot, Spring Security, JPA, MySQL e Docker. O sistema foi desenhado para atender cenários reais de autenticação, autorização, controle de acesso por perfil/cargo, e gerenciamento de oportunidades de atendimento.
+Este projeto é uma API REST para gestão de revendas, usuários e oportunidades de negócio, construída com Spring Boot, Spring Security, JPA, MySQL e Docker.
 
 ---
 
@@ -10,9 +10,10 @@ Este projeto é uma API REST para gestão de revendas, usuários e oportunidades
 - [Requisitos](#requisitos)
 - [Configuração do Ambiente](#configuração-do-ambiente)
 - [Execução com Docker](#execução-com-docker)
+- [Documentação da API (Swagger)](#documentação-da-api-swagger)
 - [Estrutura das Entidades](#estrutura-das-entidades)
 - [Regras de Negócio e Permissões](#regras-de-negócio-e-permissões)
-- [Exemplos de Uso (Postman)](#exemplos-de-uso-postman)
+- [Exemplos de Uso (Endpoints)](#exemplos-de-uso-endpoints)
 - [Observações](#observações)
 
 ---
@@ -41,7 +42,6 @@ Este projeto é uma API REST para gestão de revendas, usuários e oportunidades
 ## Configuração do Ambiente
 
 1. **Clone o repositório:**
-
    ```sh
    git clone <url-do-repositorio>
    cd gestao-revendas
@@ -76,6 +76,13 @@ Este projeto é uma API REST para gestão de revendas, usuários e oportunidades
    ```
    A aplicação estará disponível em:  
    `http://localhost:8080/mobi`
+
+---
+
+## Documentação da API (Swagger)
+
+Acesse a documentação interativa da API em:  
+[http://localhost:8080/mobi/swagger-ui/index.html](http://localhost:8080/mobi/swagger-ui/index.html)
 
 ---
 
@@ -140,60 +147,164 @@ Este projeto é uma API REST para gestão de revendas, usuários e oportunidades
 
 ---
 
-## Exemplos de Uso (Postman)
+## Exemplos de Uso (Endpoints)
 
-### 1. **Autenticação (Basic Auth)**
-- Username: `admin@revenda.com`
-- Password: `admin`
+> **Todos os endpoints abaixo devem ser acessados autenticando-se via Basic Auth.**
 
-### 2. **Criar Revenda**
-```http
-POST /mobi/api/revenda
-Content-Type: application/json
+### Revenda
 
-{
-  "nomeSocial": "Revenda Exemplo",
-  "cnpj": "12.345.678/0001-99"
-}
-```
+- **Criar Revenda**
+  - `POST /mobi/api/revenda`
+  - Exemplo de entrada:
+    ```json
+    {
+      "nomeSocial": "Revenda Exemplo",
+      "cnpj": "12.345.678/0001-99"
+    }
+    ```
 
-### 3. **Criar Usuário**
-```http
-POST /mobi/api/revenda/{idRevenda}/usuario
-Content-Type: application/json
+- **Listar Revendas**
+  - `GET /mobi/api/revenda?page=0&size=10`
 
-{
-  "nomeCompleto": "João da Silva",
-  "email": "joao@revenda.com",
-  "cargo": "ASSISTENTE",
-  "idRevenda": "{idRevenda}",
-  "senha": "senha123"
-}
-```
+- **Buscar Revenda por ID**
+  - `GET /mobi/api/revenda/{idRevenda}`
 
-### 4. **Criar Oportunidade**
-```http
-POST /mobi/api/revenda/{idRevenda}/oportunidade
-Content-Type: application/json
+- **Editar Revenda**
+  - `PATCH /mobi/api/revenda/{idRevenda}`
+    ```json
+    {
+      "nomeSocial": "Novo Nome",
+      "cnpj": "12.345.678/0001-99"
+    }
+    ```
 
-{
-  "status": "NOVO",
-  "motivoConclusao": "",
-  "responsavel": { "idUsuario": "{idUsuarioResponsavel}" },
-  "revenda": { "idRevenda": "{idRevenda}" },
-  "veiculo": {
-    "marca": "Toyota",
-    "modelo": "Corolla",
-    "versao": "GLi",
-    "anoModelo": 2022
-  },
-  "cliente": {
-    "nome": "Maria Cliente",
-    "email": "maria@email.com",
-    "telefone": "11999999999"
-  }
-}
-```
+- **Deletar Revenda**
+  - `DELETE /mobi/api/revenda/{idRevenda}`
+
+---
+
+### Usuário
+
+- **Criar Usuário**
+  - `POST /mobi/api/revenda/{idRevenda}/usuario`
+    ```json
+    {
+      "nomeCompleto": "João da Silva",
+      "email": "joao@revenda.com",
+      "cargo": "ASSISTENTE",
+      "idRevenda": "{idRevenda}",
+      "senha": "senha123"
+    }
+    ```
+
+- **Listar Usuários da Revenda**
+  - `GET /mobi/api/revenda/{idRevenda}/usuario?page=0&size=10`
+
+- **Buscar Usuário por ID**
+  - `GET /mobi/api/revenda/{idRevenda}/usuario/{idUsuario}`
+
+- **Editar Usuário**
+  - `PATCH /mobi/api/revenda/{idRevenda}/usuario/{idUsuario}`
+    ```json
+    {
+      "nomeCompleto": "João da Silva",
+      "email": "joao@revenda.com",
+      "cargo": "ASSISTENTE",
+      "senha": "novaSenha"
+    }
+    ```
+
+- **Deletar Usuário**
+  - `DELETE /mobi/api/revenda/{idRevenda}/usuario/{idUsuario}`
+
+- **Alterar Usuário Admin**
+  - `PATCH /mobi/api/revenda/{idRevenda}/usuario/alterar-admin`
+    ```json
+    {
+      "nomeCompleto": "Administrador",
+      "email": "admin@revenda.com",
+      "cargo": "ADMINISTRADOR",
+      "senha": "novaSenhaAdmin"
+    }
+    ```
+
+---
+
+### Oportunidade
+
+- **Criar Oportunidade**
+  - `POST /mobi/api/revenda/{idRevenda}/oportunidade`
+    ```json
+    {
+      "status": "NOVO",
+      "motivoConclusao": "",
+      "responsavel": { "idUsuario": "{idUsuarioResponsavel}" },
+      "revenda": { "idRevenda": "{idRevenda}" },
+      "veiculo": {
+        "marca": "Toyota",
+        "modelo": "Corolla",
+        "versao": "GLi",
+        "anoModelo": 2022
+      },
+      "cliente": {
+        "nome": "Maria Cliente",
+        "email": "maria@email.com",
+        "telefone": "11999999999"
+      }
+    }
+    ```
+
+- **Listar Oportunidades**
+  - `GET /mobi/api/revenda/{idRevenda}/oportunidade?page=0&size=10`
+
+- **Editar Oportunidade**
+  - `PATCH /mobi/api/revenda/{idRevenda}/oportunidade/{idOportunidade}`
+    ```json
+    {
+      "status": "EM_ATENDIMENTO",
+      "motivoConclusao": "",
+      "responsavel": { "idUsuario": "{idUsuarioResponsavel}" },
+      "revenda": { "idRevenda": "{idRevenda}" },
+      "veiculo": {
+        "marca": "Toyota",
+        "modelo": "Corolla",
+        "versao": "GLi",
+        "anoModelo": 2022
+      },
+      "cliente": {
+        "nome": "Maria Cliente",
+        "email": "maria@email.com",
+        "telefone": "11999999999"
+      }
+    }
+    ```
+
+- **Deletar Oportunidade**
+  - `DELETE /mobi/api/revenda/{idRevenda}/oportunidade/{idOportunidade}`
+
+- **Transferir Oportunidade**
+  - `PATCH /mobi/api/revenda/{idRevenda}/oportunidade`
+    - Parâmetro: `idOportunidade` (UUID)
+    - Body:
+      ```json
+      {
+        "status": "EM_ATENDIMENTO",
+        "motivoConclusao": "",
+        "responsavel": { "idUsuario": "{idNovoResponsavel}" },
+        "revenda": { "idRevenda": "{idRevenda}" },
+        "veiculo": {
+          "marca": "Toyota",
+          "modelo": "Corolla",
+          "versao": "GLi",
+          "anoModelo": 2022
+        },
+        "cliente": {
+          "nome": "Maria Cliente",
+          "email": "maria@email.com",
+          "telefone": "11999999999"
+        }
+      }
+      ```
 
 ---
 

@@ -31,7 +31,7 @@ public class Revenda {
     private UUID idRevenda;
 
     @NotBlank
-    @Column(name = "nome_social", nullable = false)
+    @Column(name = "nome_social", nullable = false, length = 50)
     private String nomeSocial;
     
     @NotBlank
