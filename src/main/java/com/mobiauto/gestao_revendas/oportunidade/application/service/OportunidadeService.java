@@ -1,7 +1,8 @@
 package com.mobiauto.gestao_revendas.oportunidade.application.service;
 
-import java.util.List;
 import java.util.UUID;
+
+import org.springframework.data.domain.Page;
 
 import com.mobiauto.gestao_revendas.oportunidade.application.api.OportunidadeListResponse;
 import com.mobiauto.gestao_revendas.oportunidade.application.api.OportunidadeRequest;
@@ -11,6 +12,6 @@ public interface OportunidadeService {
 
     OportunidadeResponse criaOportunidade(UUID idRevenda, OportunidadeRequest oportunidadeRequest);
 
-    List<OportunidadeListResponse> buscaOportunidades(UUID idRevenda);
+    Page<OportunidadeListResponse> buscaOportunidades(UUID idRevenda, int page, int size);
 
 }

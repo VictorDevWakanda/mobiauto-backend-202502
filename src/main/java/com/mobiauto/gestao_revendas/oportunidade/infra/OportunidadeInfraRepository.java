@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
@@ -35,9 +37,9 @@ public class OportunidadeInfraRepository implements OportunidadeRepository {
     }
 
     @Override
-    public List<Oportunidade> buscaOportunidades(UUID idRevenda) {
+    public Page<Oportunidade> buscaOportunidades(UUID idRevenda, Pageable pageable) {
         log.info("[Inicia] OportunidadeInfraRepository - buscaOportunidades");
-        List<Oportunidade> oportunidades = oportunidadeSpringDataJPARepository.findByRevenda_IdRevenda(idRevenda);
+        Page<Oportunidade> oportunidades = oportunidadeSpringDataJPARepository.findByRevenda_IdRevenda(idRevenda, pageable);
         log.info("[Finaliza] OportunidadeInfraRepository - buscaOportunidades");
         return oportunidades;
     }

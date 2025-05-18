@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mobiauto.gestao_revendas.common.api.PageResponse;
+
 import jakarta.validation.Valid;
 
 @RestController
@@ -29,7 +31,7 @@ public interface UsuarioAPI {
 
         @GetMapping
         @ResponseStatus(HttpStatus.OK)
-        Page<UsuarioListResponse> getTodosUsuarios(@PathVariable UUID idRevenda,
+        PageResponse<UsuarioListResponse> getTodosUsuarios(@PathVariable UUID idRevenda,
                         @RequestParam(defaultValue = "0") int page,
                         @RequestParam(defaultValue = "10") int size);
 

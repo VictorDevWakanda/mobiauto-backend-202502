@@ -5,6 +5,7 @@ import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mobiauto.gestao_revendas.common.api.PageResponse;
 import com.mobiauto.gestao_revendas.usuario.application.service.UsuarioService;
 
 import jakarta.validation.Valid;
@@ -30,12 +31,12 @@ public class UsuarioController implements UsuarioAPI {
     }
 
     @Override
-    public Page<UsuarioListResponse> getTodosUsuarios(UUID idRevenda, int page, int size) {
+    public PageResponse<UsuarioListResponse> getTodosUsuarios(UUID idRevenda, int page, int size) {
         log.info("[Inicia] UsuarioController - getTodoUsuarios");
         log.info(ID_REVENDA_LOG, idRevenda);
         Page<UsuarioListResponse> usuarios = usuarioService.buscaTodosUsuarios(idRevenda, page, size);
         log.info("[Finaliza] UsuarioController - getTodosUsuarios");
-        return usuarios;
+        return new PageResponse<>(usuarios);
     }
 
     @Override

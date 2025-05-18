@@ -3,8 +3,10 @@ package com.mobiauto.gestao_revendas.oportunidade.application.api;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mobiauto.gestao_revendas.common.api.PageResponse;
 import com.mobiauto.gestao_revendas.oportunidade.application.service.OportunidadeService;
 
 import lombok.RequiredArgsConstructor;
@@ -26,12 +28,12 @@ public class OportunidadeController implements OportunidadeAPI {
     }
 
     @Override
-    public List<OportunidadeListResponse> getOportunidades(UUID idRevenda) {
+    public PageResponse<OportunidadeListResponse> getOportunidades(UUID idRevenda, int page, int size) {
         log.info("[inicia] OportunidadeController - getOportunidades");
         log.info("[idRevenda] {}", idRevenda);
-        List<OportunidadeListResponse> oportunidades = oportunidadeService.buscaOportunidades(idRevenda);
+        Page<OportunidadeListResponse> oportunidades = oportunidadeService.buscaOportunidades(idRevenda, page, size);
         log.info("[finaliza] OportunidadeController - getOportunidades");
-        return oportunidades;
+        return new PageResponse<>(oportunidades);
     }
 
 

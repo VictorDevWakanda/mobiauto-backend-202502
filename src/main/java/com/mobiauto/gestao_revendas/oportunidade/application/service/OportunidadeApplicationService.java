@@ -3,6 +3,8 @@ package com.mobiauto.gestao_revendas.oportunidade.application.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -55,10 +57,10 @@ public class OportunidadeApplicationService implements OportunidadeService {
     }
 
     @Override
-    public List<OportunidadeListResponse> buscaOportunidades(UUID idRevenda) {
+    public Page<OportunidadeListResponse> buscaOportunidades(UUID idRevenda, int page, int size) {
         log.info("[inicia] OportunidadeApplicationService - buscaOportunidades");
         revendaRepository.buscaRevendaPorId(idRevenda);
-        List<Oportunidade> oportunidades = oportunidadeRepository.buscaOportunidades(idRevenda);
+        Page<Oportunidade> oportunidades = oportunidadeRepository.buscaOportunidades(idRevenda, PageRequest.of(page, size));
         log.info("[Finaliza] OportunidadeApplicationService - buscaOportunidades");
         return OportunidadeListResponse.converte(oportunidades);
     }
