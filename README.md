@@ -319,4 +319,4 @@ Acesse a documentação interativa da API em:
 ---
 
 **Dúvidas ou sugestões?**  
-Abra uma issue ou entre em contato com o time de desenvolvimento.
+Abra uma issue ou entre em contato com o desenvolvedor.
