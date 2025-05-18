@@ -1,6 +1,5 @@
 package com.mobiauto.gestao_revendas.oportunidade.infra;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;

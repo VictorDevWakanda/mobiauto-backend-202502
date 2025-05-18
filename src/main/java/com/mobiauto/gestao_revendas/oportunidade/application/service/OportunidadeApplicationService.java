@@ -1,10 +1,10 @@
 package com.mobiauto.gestao_revendas.oportunidade.application.service;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -43,12 +43,10 @@ public class OportunidadeApplicationService implements OportunidadeService {
             throw APIException.build(HttpStatus.BAD_REQUEST, "Dados do cliente e veículo são obrigatórios.");
         }
 
-        // Busque as entidades associadas do banco
         Revenda revenda = revendaRepository.buscaRevendaPorId(idRevenda);
         Usuario responsavel = usuarioRepository.buscaUsuarioAtravesId(
                 oportunidadeRequest.getResponsavel().getIdUsuario());
 
-        // Crie a oportunidade com entidades gerenciadas
         Oportunidade oportunidade = new Oportunidade(revenda, responsavel, oportunidadeRequest);
         oportunidadeRepository.salva(oportunidade);
 
@@ -60,7 +58,7 @@ public class OportunidadeApplicationService implements OportunidadeService {
     public Page<OportunidadeListResponse> buscaOportunidades(UUID idRevenda, int page, int size) {
         log.info("[inicia] OportunidadeApplicationService - buscaOportunidades");
         revendaRepository.buscaRevendaPorId(idRevenda);
-        Page<Oportunidade> oportunidades = oportunidadeRepository.buscaOportunidades(idRevenda, PageRequest.of(page, size));
+        Page<Oportunidade> oportunidades = oportunidadeRepository.buscaOportunidades(idRevenda, PageRequest.of(page, size, Sort.by("responsavel.nomeCompleto").ascending()));
         log.info("[Finaliza] OportunidadeApplicationService - buscaOportunidades");
         return OportunidadeListResponse.converte(oportunidades);
     }

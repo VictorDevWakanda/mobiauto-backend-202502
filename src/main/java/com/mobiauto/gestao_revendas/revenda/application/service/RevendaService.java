@@ -1,7 +1,8 @@
 package com.mobiauto.gestao_revendas.revenda.application.service;
 
-import java.util.List;
 import java.util.UUID;
+
+import org.springframework.data.domain.Page;
 
 import com.mobiauto.gestao_revendas.revenda.application.api.RevendaAlteracaoRequest;
 import com.mobiauto.gestao_revendas.revenda.application.api.RevendaDetalhadoResponse;
@@ -13,7 +14,7 @@ public interface RevendaService {
 
     RevendaResponse criaRevenda(RevendaRequest revendaRequest);
 
-    List<RevendaListResponse> buscaTodasRevendas();
+    Page<RevendaListResponse> buscaTodasRevendas(int page, int size);
 
     RevendaDetalhadoResponse buscaRevendaPorId(UUID idRevenda);
 

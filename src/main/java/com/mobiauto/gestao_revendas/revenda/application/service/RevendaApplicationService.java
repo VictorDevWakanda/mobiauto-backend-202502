@@ -3,6 +3,9 @@ package com.mobiauto.gestao_revendas.revenda.application.service;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -42,9 +45,9 @@ public class RevendaApplicationService implements RevendaService {
     }
 
     @Override
-    public List<RevendaListResponse> buscaTodasRevendas() {
+    public Page<RevendaListResponse> buscaTodasRevendas(int page, int size) {
         log.info("[Inicia] RevendaApplicationService - buscaTodasRevendas");
-        List<Revenda> revendas = revendaRepository.buscaTodasRevendas();
+        Page<Revenda> revendas = revendaRepository.buscaTodasRevendas(PageRequest.of(page, size, Sort.by("nomeSocial").ascending()));
         log.info("[Finaliza] RevendaApplicationService - buscaTodasRevendas");
         return RevendaListResponse.converte(revendas);
     }

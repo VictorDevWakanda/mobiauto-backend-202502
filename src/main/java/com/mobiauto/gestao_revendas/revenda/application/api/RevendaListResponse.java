@@ -1,6 +1,10 @@
 package com.mobiauto.gestao_revendas.revenda.application.api;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
 
@@ -11,11 +15,11 @@ public class RevendaListResponse {
     private String nomeSocial;
     private String cnpj;
 
-    public static List<RevendaListResponse> converte(List<Revenda> revendas) {
-        return revendas.stream()
+    public static Page<RevendaListResponse> converte(Page<Revenda> revendas) {
+        List<RevendaListResponse> content = revendas.stream()
                 .map(RevendaListResponse::new)
-                .toList();
-
+                .collect(Collectors.toList());
+        return new PageImpl<>(content, revendas.getPageable(), revendas.getTotalElements());
     }
 
     public RevendaListResponse(Revenda revenda) {

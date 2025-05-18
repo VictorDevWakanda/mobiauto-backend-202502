@@ -3,8 +3,10 @@ package com.mobiauto.gestao_revendas.revenda.application.api;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mobiauto.gestao_revendas.common.api.PageResponse;
 import com.mobiauto.gestao_revendas.revenda.application.service.RevendaService;
 
 import jakarta.validation.Valid;
@@ -29,11 +31,11 @@ public class RevendaController implements RevendaAPI {
     }
 
     @Override
-    public List<RevendaListResponse> getTodasRevendas() {
+    public PageResponse<RevendaListResponse> getTodasRevendas(int page, int size) {
         log.info("[Inicia] ClienteController - getTodasRevendas");
-        List<RevendaListResponse> revendas = revendaService.buscaTodasRevendas();
+        Page<RevendaListResponse> revendas = revendaService.buscaTodasRevendas(page, size);
         log.info("[Finaliza] ClienteController - getTodasRevendas");
-        return revendas;
+        return new PageResponse<>(revendas);
     }
 
     @Override

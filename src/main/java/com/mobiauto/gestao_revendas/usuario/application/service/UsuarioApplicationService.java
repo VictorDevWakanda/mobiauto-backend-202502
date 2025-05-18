@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -86,7 +87,7 @@ public class UsuarioApplicationService implements UsuarioService {
     public Page<UsuarioListResponse> buscaTodosUsuarios(UUID idRevenda, int page, int size) {
         log.info("[Inicia] UsuarioApplicationService - buscaTodosUsuarios");
         revendaService.buscaRevendaPorId(idRevenda);
-        Page<Usuario> usuarios = usuarioRepository.buscaTodosUsuarios(idRevenda, PageRequest.of(page, size));
+        Page<Usuario> usuarios = usuarioRepository.buscaTodosUsuarios(idRevenda, PageRequest.of(page, size, Sort.by("nomeCompleto").ascending()));
         log.info("[Finaliza] UsuarioApplicationService - buscaTodosUsuarios");
         return UsuarioListResponse.converte(usuarios);
     }

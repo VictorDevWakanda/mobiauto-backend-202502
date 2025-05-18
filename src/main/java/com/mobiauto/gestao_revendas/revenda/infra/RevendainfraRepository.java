@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Repository;
 
@@ -35,9 +37,9 @@ public class RevendainfraRepository implements RevendaRepository {
     }
 
     @Override
-    public List<Revenda> buscaTodasRevendas() {
+    public Page<Revenda> buscaTodasRevendas(Pageable pageable) {
         log.info("[Inicia] RevendainfraRepository - buscaTodasRevendas");
-        List<Revenda> todasRevendas = revendaSpringDataRepository.findAll();
+        Page<Revenda> todasRevendas = revendaSpringDataRepository.findAll(pageable);
         log.info("[Finaliza] RevendainfraRepository - buscaTodasRevendas");
         return todasRevendas;
     }

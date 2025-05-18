@@ -1,6 +1,5 @@
 package com.mobiauto.gestao_revendas.revenda.application.api;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -11,8 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.mobiauto.gestao_revendas.common.api.PageResponse;
 
 import jakarta.validation.Valid;
 
@@ -25,7 +27,8 @@ public interface RevendaAPI {
 
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
-    List<RevendaListResponse> getTodasRevendas();
+    PageResponse<RevendaListResponse> getTodasRevendas(@RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size);
 
     @GetMapping(value = "/{idRevenda}")
     @ResponseStatus(HttpStatus.OK)
@@ -37,5 +40,6 @@ public interface RevendaAPI {
 
     @PatchMapping(value = "/{idRevenda}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    void patchAlteraRevenda(@PathVariable UUID idRevenda, @Valid @RequestBody RevendaAlteracaoRequest revendaAlteracaoRequest);
+    void patchAlteraRevenda(@PathVariable UUID idRevenda,
+            @Valid @RequestBody RevendaAlteracaoRequest revendaAlteracaoRequest);
 }
