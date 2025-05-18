@@ -16,4 +16,6 @@ public interface OportunidadeService {
 
     void alteraOportunidade(UUID idRevenda, UUID idOportunidade, OportunidadeRequest oportunidadeRequest);
 
+    void deletaOportunidade(UUID idRevenda, UUID idOportunidade);
+
 }

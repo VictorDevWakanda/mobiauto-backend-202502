@@ -44,5 +44,13 @@ public class OportunidadeController implements OportunidadeAPI {
         log.info("[finaliza] OportunidadeController - patchOportunidade");
     }
 
+    @Override
+    public void deleteOportunidade(UUID idRevenda, UUID idOportunidade) {
+        log.info("[inicia] OportunidadeController - deleteOportunidade");
+        log.info("[idRevenda] {} - [idOportunidade] {}", idRevenda, idOportunidade);
+        oportunidadeService.deletaOportunidade(idRevenda, idOportunidade);
+        log.info("[finaliza] OportunidadeController - deleteOportunidade");
+    }
+
 
 }

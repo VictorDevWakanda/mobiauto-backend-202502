@@ -1,6 +1,7 @@
 package com.mobiauto.gestao_revendas.revenda.application.api;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -12,6 +13,7 @@ import lombok.Value;
 
 @Value
 public class RevendaListResponse {
+    private UUID idRevenda;
     private String nomeSocial;
     private String cnpj;
 
@@ -25,5 +27,6 @@ public class RevendaListResponse {
     public RevendaListResponse(Revenda revenda) {
         this.nomeSocial = revenda.getNomeSocial();
         this.cnpj = revenda.getCnpj();
+        this.idRevenda = revenda.getIdRevenda();
     }
 }

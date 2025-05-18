@@ -30,7 +30,7 @@ public class UsuarioInfraRepository implements UsuarioRepository {
             usuarioSpringDataJPARepository.save(usuario);
 
         } catch (DataIntegrityViolationException e) {
-            throw APIException.build(HttpStatus.BAD_REQUEST, "Usuario já existe!", e);
+            throw APIException.build(HttpStatus.BAD_REQUEST, "Usuario já existe!");
         }
         log.info("[Finaliza] UsuarioInfraRepository - salva");
         return usuario;

@@ -37,7 +37,9 @@ public class OportunidadeApplicationService implements OportunidadeService {
     public OportunidadeResponse criaOportunidade(UUID idRevenda, OportunidadeRequest oportunidadeRequest) {
         log.info("[inicia] OportunidadeApplicationService - criaOportunidade");
         Usuario usuarioAutenticado = usuarioApplicationService.getUsuarioAutenticado();
-        usuarioApplicationService.validaUsuario(usuarioAutenticado, idRevenda);
+        //validaPermissaoEdicao(usuarioAutenticado, oportunidade);
+
+        //usuarioApplicationService.validaUsuario(usuarioAutenticado, idRevenda);
 
         if (oportunidadeRequest.getCliente() == null || oportunidadeRequest.getVeiculo() == null) {
             throw APIException.build(HttpStatus.BAD_REQUEST, "Dados do cliente e veículo são obrigatórios.");
@@ -49,7 +51,6 @@ public class OportunidadeApplicationService implements OportunidadeService {
 
         Oportunidade oportunidade = new Oportunidade(revenda, responsavel, oportunidadeRequest);
         oportunidadeRepository.salva(oportunidade);
-
         log.info("[finaliza] OportunidadeApplicationService - criaOportunidade");
         return new OportunidadeResponse(oportunidade.getIdOportunidade());
     }
@@ -58,7 +59,8 @@ public class OportunidadeApplicationService implements OportunidadeService {
     public Page<OportunidadeListResponse> buscaOportunidades(UUID idRevenda, int page, int size) {
         log.info("[inicia] OportunidadeApplicationService - buscaOportunidades");
         revendaRepository.buscaRevendaPorId(idRevenda);
-        Page<Oportunidade> oportunidades = oportunidadeRepository.buscaOportunidades(idRevenda, PageRequest.of(page, size, Sort.by("responsavel.nomeCompleto").ascending()));
+        Page<Oportunidade> oportunidades = oportunidadeRepository.buscaOportunidades(idRevenda,
+                PageRequest.of(page, size, Sort.by("responsavel.nomeCompleto").ascending()));
         log.info("[Finaliza] OportunidadeApplicationService - buscaOportunidades");
         return OportunidadeListResponse.converte(oportunidades);
     }
@@ -74,9 +76,34 @@ public class OportunidadeApplicationService implements OportunidadeService {
                 oportunidadeRequest.getResponsavel().getIdUsuario());
 
         Oportunidade oportunidade = oportunidadeRepository.buscaOportunidadePorId(idOportunidade);
+        validaPermissaoEdicao(usuarioAutenticado, oportunidade);
         oportunidade.atualiza(revenda, responsavel, oportunidadeRequest);
         oportunidadeRepository.salva(oportunidade);
-
         log.info("[finaliza] OportunidadeApplicationService - alteraOportunidade");
+    }
+
+    @Override
+    public void deletaOportunidade(UUID idRevenda, UUID idOportunidade) {
+        log.info("[inicia] OportunidadeApplicationService - deletaOportunidade");
+        Usuario usuarioAutenticado = usuarioApplicationService.getUsuarioAutenticado();
+        //usuarioApplicationService.validaUsuario(usuarioAutenticado, idRevenda);
+        revendaRepository.buscaRevendaPorId(idRevenda);
+        Oportunidade oportunidade = oportunidadeRepository.buscaOportunidadePorId(idOportunidade);
+        validaPermissaoEdicao(usuarioAutenticado, oportunidade);
+        oportunidadeRepository.deleta(idOportunidade);
+        log.info("[finaliza] OportunidadeApplicationService - deletaOportunidade");
+    }
+
+    private void validaPermissaoEdicao(Usuario usuarioAutenticado, Oportunidade oportunidade) {
+        if ((usuarioAutenticado.getCargo().name().equals("GERENTE")
+                || usuarioAutenticado.getCargo().name().equals("PROPRIETARIO"))
+                && usuarioAutenticado.getRevenda().getIdRevenda().equals(oportunidade.getRevenda().getIdRevenda())) {
+            return;
+        }
+        // Se for o responsável, pode editar
+        if (usuarioAutenticado.getIdUsuario().equals(oportunidade.getResponsavel().getIdUsuario())) {
+            return;
+        }
+        throw APIException.build(HttpStatus.FORBIDDEN, "Você não tem permissão para editar/excluir esta oportunidade.");
     }
 }

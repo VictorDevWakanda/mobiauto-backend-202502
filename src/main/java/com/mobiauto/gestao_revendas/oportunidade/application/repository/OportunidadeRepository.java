@@ -15,4 +15,6 @@ public interface OportunidadeRepository {
 
     Oportunidade buscaOportunidadePorId(UUID idOportunidade);
 
+    void deleta(UUID idOportunidade);
+
 }

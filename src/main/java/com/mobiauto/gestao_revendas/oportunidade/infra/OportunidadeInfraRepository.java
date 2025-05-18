@@ -52,4 +52,16 @@ public class OportunidadeInfraRepository implements OportunidadeRepository {
         return oportunidade;
     }
 
+    @Override
+    public void deleta(UUID idOportunidade) {
+        log.info("[Inicia] OportunidadeInfraRepository - deleta");
+        try {
+            oportunidadeSpringDataJPARepository.deleteById(idOportunidade);
+        } catch (DataIntegrityViolationException e) {
+            log.error("[Erro] OportunidadeInfraRepository - deleta: {}", e.getMessage());
+            throw APIException.build(HttpStatus.BAD_REQUEST, "Oportunidade não pode ser deletada!", e);
+        }
+        log.info("[Finaliza] OportunidadeInfraRepository - deleta");
+    }
+
 }

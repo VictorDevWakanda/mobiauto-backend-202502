@@ -58,7 +58,7 @@ public class UsuarioApplicationService implements UsuarioService {
     public void validaUsuario(Usuario usuarioAutenticado, UUID idRevenda) {
         if (usuarioAutenticado.getCargo() == Cargo.ASSISTENTE) {
             throw APIException.build(HttpStatus.FORBIDDEN,
-                    "Assistentes não têm permissão para criar ou atualizar usuários.");
+                    "Assistentes não têm permissão para criar novos usuários.");
         }
 
         if ((usuarioAutenticado.getCargo() == Cargo.GERENTE
@@ -69,7 +69,6 @@ public class UsuarioApplicationService implements UsuarioService {
         }
     }
 
-    // TODO Se não funcionar corretamente, mudar para Request ou Response
     private void revendaInexistente(UUID idRevenda) {
         RevendaDetalhadoResponse revenda = revendaService.buscaRevendaPorId(idRevenda);
         if (revenda == null) {
@@ -124,7 +123,7 @@ public class UsuarioApplicationService implements UsuarioService {
     private void usuarioAutenticado(Usuario usuario) {
         if (!usuario.getCargo().equals(Cargo.ADMINISTRADOR) &&
                 !usuario.getCargo().equals(Cargo.PROPRIETARIO)) {
-            throw APIException.build(HttpStatus.UNAUTHORIZED, "Apenas .");
+            throw APIException.build(HttpStatus.UNAUTHORIZED, "Apenas superiores podem alterar dados de usuario.");
         }
     }
 
@@ -138,7 +137,7 @@ public class UsuarioApplicationService implements UsuarioService {
 
         // Atualiza os dados do administrador
         usuarioAdmin.setNomeCompleto(usuarioAlteracaoRequest.getNomeCompleto());
-        usuarioAdmin.setSenha(passwordEncoder.encode(usuarioAlteracaoRequest.getSenha())); // Atualiza a senha
+        usuarioAdmin.setSenha(passwordEncoder.encode(usuarioAlteracaoRequest.getSenha()));
 
         usuarioRepository.salva(usuarioAdmin);
         log.info("[Finaliza] UsuarioApplicationService - alterarUsuarioAdmin");
