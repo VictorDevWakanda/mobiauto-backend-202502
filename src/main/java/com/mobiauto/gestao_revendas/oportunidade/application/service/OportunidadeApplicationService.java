@@ -118,6 +118,9 @@ public class OportunidadeApplicationService implements OportunidadeService {
     }
 
     private void validaPermissaoEdicao(Usuario usuarioAutenticado, Oportunidade oportunidade) {
+        if (usuarioAutenticado.getCargo().name().equals("ADMINISTRADOR")) {
+            return;
+        }
         if ((usuarioAutenticado.getCargo().name().equals("GERENTE")
                 || usuarioAutenticado.getCargo().name().equals("PROPRIETARIO"))
                 && usuarioAutenticado.getRevenda().getIdRevenda().equals(oportunidade.getRevenda().getIdRevenda())) {

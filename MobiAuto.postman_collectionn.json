@@ -1,0 +1,706 @@
+{
+	"info": {
+		"_postman_id": "abd7521e-c9b3-4a19-82ce-7b3b47360b21",
+		"name": "MobiAuto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "36524987"
+	},
+	"item": [
+		{
+			"name": "Usuario",
+			"item": [
+				{
+					"name": "POST NOVO USUARIO",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"idRevenda\" : \"14a37e81-2375-444d-a90b-f0710b3fa3e7\",\n    \"nomeCompleto\" : \"Joao Carlos\",\n    \"email\" : \"joao@gmail.com\",\n    \"cargo\" : \"ASSISTENTE\",\n    \"senha\" : \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/14a37e81-2375-444d-a90b-f0710b3fa3e7/usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"14a37e81-2375-444d-a90b-f0710b3fa3e7",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET USUARIO POR ID",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/1daa3040-a459-4da8-900d-903649f23e3e/usuario/a663db65-4e7d-4aa7-950b-3296b093312b",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"1daa3040-a459-4da8-900d-903649f23e3e",
+								"usuario",
+								"a663db65-4e7d-4aa7-950b-3296b093312b"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET TODOS USUARIOS REVENDA",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/1daa3040-a459-4da8-900d-903649f23e3e/usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"1daa3040-a459-4da8-900d-903649f23e3e",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH ALTERA ADMIN",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "victoradmin@gmail.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nomeCompleto\": \"Admin\",\n  \"email\": \"admin@revenda.com\",\n  \"cargo\": \"ADMINISTRADOR\",\n  \"senha\": \"admin\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/1668ec2a-b169-4c76-9a52-ca02e3fb6c5e/usuario/alterar-admin",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"1668ec2a-b169-4c76-9a52-ca02e3fb6c5e",
+								"usuario",
+								"alterar-admin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH ALTERA USUARIO",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nomeCompleto\": \"João Carlos\",\n  \"email\": \"teste@gmail.com\",\n  \"cargo\": \"GERENTE\",\n  \"senha\": \"123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/14a37e81-2375-444d-a90b-f0710b3fa3e7/usuario/50b92839-493c-42b0-8d4e-4e16211088ae",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"14a37e81-2375-444d-a90b-f0710b3fa3e7",
+								"usuario",
+								"50b92839-493c-42b0-8d4e-4e16211088ae"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETA USUARIO",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/14a37e81-2375-444d-a90b-f0710b3fa3e7/usuario/630f660d-bead-40a5-958d-6c00242a2484",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"14a37e81-2375-444d-a90b-f0710b3fa3e7",
+								"usuario",
+								"630f660d-bead-40a5-958d-6c00242a2484"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Revenda",
+			"item": [
+				{
+					"name": "POST NOVA REVENDA",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nomeSocial\" : \"HaoJue Motos\",\n    \"cnpj\" : \"67.402.966/0001-26\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET TODAS REVENDAS",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET REVENDA POR ID",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/bfe032e6-6d1c-4171-9515-533234c6aeb1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"bfe032e6-6d1c-4171-9515-533234c6aeb1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETA REVENDA",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/82a613ff-faf3-4983-912f-d49c27a2ad48",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"82a613ff-faf3-4983-912f-d49c27a2ad48"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ALTERA REVENDA",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"nomeSocial\": \"HaoJue Carros\",\n  \"cnpj\": \"55.970.756/0001-55\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/bfe032e6-6d1c-4171-9515-533234c6aeb1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"bfe032e6-6d1c-4171-9515-533234c6aeb1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Oportunidade",
+			"item": [
+				{
+					"name": "POST NOVA OPORTUNIDADE",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"NOVO\",\n  \"motivoConclusao\": \"Caloteeeeee Carlos!\",\n  \"responsavel\": {\n    \"idUsuario\": \"c0af477c-53e2-4aa2-8f60-fa66785bd9f7\"\n  },\n  \"revenda\": {\n    \"idRevenda\": \"2d281976-1074-4cb7-9159-2b073f7b89b7\"\n  },\n  \"veiculo\": {\n    \"marca\": \"Toyota\",\n    \"modelo\": \"Corolla\",\n    \"versao\": \"GLi\",\n    \"anoModelo\": 2022\n  },\n  \"cliente\": {\n    \"nome\": \"João da Silva\",\n    \"email\": \"cabral@email.com\",\n    \"telefone\": \"11999999999\"\n  }\n  \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/2d281976-1074-4cb7-9159-2b073f7b89b7/oportunidade",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"2d281976-1074-4cb7-9159-2b073f7b89b7",
+								"oportunidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET BUSCA OPORTUNIDADES",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								},
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/14a37e81-2375-444d-a90b-f0710b3fa3e7/oportunidade",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"14a37e81-2375-444d-a90b-f0710b3fa3e7",
+								"oportunidade"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH ATUALIZA OPORTUNIDADE",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "admin",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin@revenda.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"NOVO\",\n  \"motivoConclusao\": \"Falta de credito no serasa!\",\n  \"responsavel\": {\n    \"idUsuario\": \"e3e2dbdb-9291-432a-83a2-9ac5752c14c3\"\n  },\n  \"revenda\": {\n    \"idRevenda\": \"14a37e81-2375-444d-a90b-f0710b3fa3e7\"\n  },\n  \"veiculo\": {\n    \"marca\": \"Toyota\",\n    \"modelo\": \"Hilux\",\n    \"versao\": \"SRV\",\n    \"anoModelo\": 2024\n  },\n  \"cliente\": {\n    \"nome\": \"Carlos Cabral\",\n    \"email\": \"carlos.cabral@email.com\",\n    \"telefone\": \"11999999922\"\n  }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/14a37e81-2375-444d-a90b-f0710b3fa3e7/oportunidade/123e4567-e89b-12d3-a456-426614174000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"14a37e81-2375-444d-a90b-f0710b3fa3e7",
+								"oportunidade",
+								"123e4567-e89b-12d3-a456-426614174000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PATCH TRANSFERE OPORTUNIDADE",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "willas@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"status\": \"NOVO\",\n  \"motivoConclusao\": \"Falta de credito no serasa!\",\n  \"responsavel\": {\n    \"idUsuario\": \"1ea92912-c132-47e9-b7bf-cc2d66e71e71\"\n  },\n  \"revenda\": {\n    \"idRevenda\": \"14a37e81-2375-444d-a90b-f0710b3fa3e7\"\n  },\n  \"veiculo\": {\n    \"marca\": \"Toyota\",\n    \"modelo\": \"Hilux\",\n    \"versao\": \"SRV\",\n    \"anoModelo\": 2024\n  },\n  \"cliente\": {\n    \"nome\": \"Carlos Cabral\",\n    \"email\": \"carlos.cabral@email.com\",\n    \"telefone\": \"11999999922\"\n  },\n  \"dataAtribuicao\": null,\n  \"dataConclusao\": null\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/14a37e81-2375-444d-a90b-f0710b3fa3e7/oportunidade/transfere/123e4567-e89b-12d3-a456-426614174000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"14a37e81-2375-444d-a90b-f0710b3fa3e7",
+								"oportunidade",
+								"transfere",
+								"123e4567-e89b-12d3-a456-426614174000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETA OPORTUNIDADE",
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "willas@gmail.com",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/mobi/api/revenda/14a37e81-2375-444d-a90b-f0710b3fa3e7/oportunidade/123e4567-e89b-12d3-a456-426614174000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"mobi",
+								"api",
+								"revenda",
+								"14a37e81-2375-444d-a90b-f0710b3fa3e7",
+								"oportunidade",
+								"123e4567-e89b-12d3-a456-426614174000"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
