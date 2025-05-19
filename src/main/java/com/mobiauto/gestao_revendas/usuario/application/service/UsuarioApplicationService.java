@@ -145,11 +145,11 @@ public class UsuarioApplicationService implements UsuarioService {
     public void alterarUsuarioAdmin(UsuarioAlteracaoRequest usuarioAlteracaoRequest) {
         log.info("[Inicia] UsuarioApplicationService - alterarUsuarioAdmin");
 
-        // Busca o usuário administrador padrão
+        
         Usuario usuarioAdmin = usuarioRepository.findByEmail("admin@revenda.com")
                 .orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Usuário administrador não encontrado"));
 
-        // Atualiza os dados do administrador
+        
         usuarioAdmin.setEmail(usuarioAlteracaoRequest.getEmail());
         usuarioAdmin.setNomeCompleto(usuarioAlteracaoRequest.getNomeCompleto());
         usuarioAdmin.setSenha(passwordEncoder.encode(usuarioAlteracaoRequest.getSenha()));

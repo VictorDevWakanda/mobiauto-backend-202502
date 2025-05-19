@@ -53,12 +53,12 @@ public class Revenda {
         this.cnpj = formatarCNPJ(sanitizarCNPJ(revendaAlteracaoRequest.getCnpj()));
     }
 
-    // Remove todos os caracteres não numéricos
+    
     private String sanitizarCNPJ(String cnpj) {
         return cnpj.replaceAll("[^\\d]", "");
     }
 
-    // Método para formatar o CNPJ
+    
     private String formatarCNPJ(String cnpj) {
         return cnpj.replaceFirst("(\\d{2})(\\d{3})(\\d{3})(\\d{4})(\\d{2})", "$1.$2.$3/$4-$5");
     }
