@@ -17,6 +17,9 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class OportunidadeController implements OportunidadeAPI {
 
+    private static final String ID_REVENDA_LOG = "[idRevenda] {}";
+    private static final String ID_OPORTUNIDADE_LOG = "[idOportunidade] {}";
+
     private final OportunidadeService oportunidadeService;
 
     @Override
@@ -30,7 +33,7 @@ public class OportunidadeController implements OportunidadeAPI {
     @Override
     public PageResponse<OportunidadeListResponse> getOportunidades(UUID idRevenda, int page, int size) {
         log.info("[inicia] OportunidadeController - getOportunidades");
-        log.info("[idRevenda] {}", idRevenda);
+        log.info(ID_REVENDA_LOG, idRevenda);
         Page<OportunidadeListResponse> oportunidades = oportunidadeService.buscaOportunidades(idRevenda, page, size);
         log.info("[finaliza] OportunidadeController - getOportunidades");
         return new PageResponse<>(oportunidades);
@@ -39,7 +42,7 @@ public class OportunidadeController implements OportunidadeAPI {
     @Override
     public void patchOportunidade(UUID idRevenda, UUID idOportunidade, @Valid OportunidadeRequest oportunidadeRequest) {
         log.info("[inicia] OportunidadeController - patchOportunidade");
-        log.info("[idRevenda] {} - [idOportunidade] {}", idRevenda, idOportunidade);
+        log.info(ID_REVENDA_LOG + ID_OPORTUNIDADE_LOG, idRevenda, idOportunidade);
         oportunidadeService.alteraOportunidade(idRevenda, idOportunidade, oportunidadeRequest);
         log.info("[finaliza] OportunidadeController - patchOportunidade");
     }
@@ -47,9 +50,18 @@ public class OportunidadeController implements OportunidadeAPI {
     @Override
     public void deleteOportunidade(UUID idRevenda, UUID idOportunidade) {
         log.info("[inicia] OportunidadeController - deleteOportunidade");
-        log.info("[idRevenda] {} - [idOportunidade] {}", idRevenda, idOportunidade);
+        log.info(ID_REVENDA_LOG + ID_OPORTUNIDADE_LOG, idRevenda, idOportunidade);
         oportunidadeService.deletaOportunidade(idRevenda, idOportunidade);
         log.info("[finaliza] OportunidadeController - deleteOportunidade");
+    }
+
+    @Override
+    public void patchTransfereOportunidade(UUID idRevenda, UUID idOportunidade,
+            @Valid OportunidadeRequest oportunidadeRequest) {
+        log.info("[inicia] OportunidadeController - patchTransfereOportunidade");
+        log.info(ID_REVENDA_LOG + ID_OPORTUNIDADE_LOG, idRevenda, idOportunidade);
+        oportunidadeService.transfereOportunidade(idRevenda, idOportunidade, oportunidadeRequest);
+        log.info("[finaliza] OportunidadeController - patchTransfereOportunidade");
     }
 
 

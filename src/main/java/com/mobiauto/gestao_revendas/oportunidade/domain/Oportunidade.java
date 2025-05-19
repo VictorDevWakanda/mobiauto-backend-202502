@@ -7,6 +7,7 @@ import com.mobiauto.gestao_revendas.oportunidade.application.api.OportunidadeReq
 import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
 import com.mobiauto.gestao_revendas.usuario.domain.Usuario;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -38,6 +39,7 @@ public class Oportunidade {
     private Long version;
 
     @Enumerated(EnumType.STRING)
+    @Schema(description = "Status da Oportunidade", allowableValues = {"NOVO", "EM_ANDAMENTO", "CONCLUIDO"})
     private StatusOportunidade status;
 
     @Column(length = 100)

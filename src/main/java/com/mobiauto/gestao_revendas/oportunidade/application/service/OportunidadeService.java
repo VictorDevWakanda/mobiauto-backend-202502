@@ -18,4 +18,6 @@ public interface OportunidadeService {
 
     void deletaOportunidade(UUID idRevenda, UUID idOportunidade);
 
+    void transfereOportunidade(UUID idRevenda, UUID idOportunidade, OportunidadeRequest oportunidadeRequest);
+
 }

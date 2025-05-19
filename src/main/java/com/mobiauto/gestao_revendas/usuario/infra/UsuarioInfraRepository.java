@@ -1,5 +1,6 @@
 package com.mobiauto.gestao_revendas.usuario.infra;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -67,6 +68,14 @@ public class UsuarioInfraRepository implements UsuarioRepository {
         Optional<Usuario> usuario = usuarioSpringDataJPARepository.findByEmail(email);
         log.info("[Finaliza] UsuarioInfraRepository - buscaPorEmail");
         return usuario;
+    }
+
+    @Override
+    public List<Usuario> buscaAssistentesPorRevenda(UUID idRevenda) {
+        log.info("[Inicia] UsuarioInfraRepository - buscaAssistentesPorRevenda");
+        List<Usuario> assistentes = usuarioSpringDataJPARepository.findAssistenteByRevenda_IdRevenda(idRevenda);
+        log.info("[Finaliza] UsuarioInfraRepository - buscaAssistentesPorRevenda");
+        return assistentes;
     }
 
 }

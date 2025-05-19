@@ -1,5 +1,7 @@
 package com.mobiauto.gestao_revendas.revenda.application.api;
 
+import org.hibernate.validator.constraints.br.CNPJ;
+
 import jakarta.validation.constraints.NotBlank;
 import lombok.Value;
 
@@ -9,5 +11,6 @@ public class RevendaAlteracaoRequest {
     private String nomeSocial;
     
     @NotBlank
+    @CNPJ
     private String cnpj;
 }

@@ -1,5 +1,6 @@
 package com.mobiauto.gestao_revendas.usuario.infra;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -13,5 +14,7 @@ public interface UsuarioSpringDataJPARepository extends JpaRepository<Usuario, U
     Page<Usuario> findByRevenda_IdRevenda(UUID idRevenda, Pageable pageable);
 
     Optional<Usuario> findByEmail(String email);
+
+    List<Usuario> findAssistenteByRevenda_IdRevenda(UUID idRevenda);
 
 }

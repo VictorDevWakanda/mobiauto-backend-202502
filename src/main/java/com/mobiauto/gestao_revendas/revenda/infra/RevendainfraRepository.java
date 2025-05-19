@@ -1,6 +1,5 @@
 package com.mobiauto.gestao_revendas.revenda.infra;
 
-import java.util.List;
 import java.util.UUID;
 
 import org.springframework.dao.DataIntegrityViolationException;
@@ -29,7 +28,7 @@ public class RevendainfraRepository implements RevendaRepository {
         try {
             revendaSpringDataRepository.save(revenda);
         } catch (DataIntegrityViolationException e) {
-            throw APIException.build(HttpStatus.BAD_REQUEST, "Revenda já existe", e);
+            throw APIException.build(HttpStatus.BAD_REQUEST, "Revenda já existe");
         }
         log.info("[Finaliza] RevendainfraRepository - salva");
         return revenda;

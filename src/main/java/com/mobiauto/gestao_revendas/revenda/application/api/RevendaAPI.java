@@ -16,28 +16,35 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mobiauto.gestao_revendas.common.api.PageResponse;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/revenda")
 public interface RevendaAPI {
+
+    @Operation(summary = "Cria uma nova revenda", description = "Permite que administradores ou proprietários criem uma nova revenda.")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     RevendaResponse postRevenda(@Valid @RequestBody RevendaRequest revendaRequest);
 
+    @Operation(summary = "Lista todas as revendas", description = "Permite que usuarios listem todas as revendas.")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     PageResponse<RevendaListResponse> getTodasRevendas(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size);
 
+    @Operation(summary = "Busca revenda por ID", description = "Permite que administradores ou proprietários busquem uma revenda específica pelo ID.")
     @GetMapping(value = "/{idRevenda}")
     @ResponseStatus(HttpStatus.OK)
     RevendaDetalhadoResponse getRevendaPorId(@PathVariable UUID idRevenda);
 
+    @Operation(summary = "Deleta revenda por ID", description = "Permite que administradores ou proprietários deletem uma revenda específica pelo ID.")
     @DeleteMapping(value = "/{idRevenda}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteRevendaPorId(@PathVariable UUID idRevenda);
 
+    @Operation(summary = "Altera revenda por ID", description = "Permite que administradores ou proprietários alterem uma revenda específica pelo ID.")
     @PatchMapping(value = "/{idRevenda}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void patchAlteraRevenda(@PathVariable UUID idRevenda,

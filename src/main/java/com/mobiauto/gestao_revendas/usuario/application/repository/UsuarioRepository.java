@@ -1,5 +1,6 @@
 package com.mobiauto.gestao_revendas.usuario.application.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -19,6 +20,8 @@ public interface UsuarioRepository {
     void deletaUsuario(Usuario usuario);
 
     Optional <Usuario> findByEmail(String email);
+
+    List<Usuario> buscaAssistentesPorRevenda(UUID idRevenda);
 
     
 }
