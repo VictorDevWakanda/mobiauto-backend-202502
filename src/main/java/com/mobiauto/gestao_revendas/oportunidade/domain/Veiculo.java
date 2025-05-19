@@ -21,6 +21,9 @@ public class Veiculo {
     @Column(length = 4)
     private int anoModelo;
 
+    public Veiculo() {
+    }
+    
     public Veiculo(Veiculo veiculo) {
         this.marca = veiculo.marca;
         this.modelo = veiculo.modelo;
