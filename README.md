@@ -315,6 +315,7 @@ Acesse a documentação interativa da API em:
 - As senhas são sempre armazenadas de forma criptografada.
 - Para testar os endpoints, utilize o Postman ou outro cliente HTTP, sempre autenticando com um usuário válido.
 - O sistema está preparado para ser facilmente expandido com novas regras de negócio e endpoints.
+- Tudo foi feito em um período de tempo curto, portanto podem haver bugs ou erros na aplicação(Por favor, considere isto!).
 
 ---
 
