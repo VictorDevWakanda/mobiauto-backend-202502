@@ -24,36 +24,36 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/revenda/{idRevenda}/usuario")
 public interface UsuarioAPI {
 
-        @Operation(summary = "Cria um novo usuário na revenda", description = "Permite que administradores, proprietários ou gerentes criem um novo usuário para a revenda informada.")
+        @Operation(summary = "Cria um novo usuário na revenda")
         @PreAuthorize("isAuthenticated()")
         @PostMapping()
         @ResponseStatus(HttpStatus.CREATED)
         UsuarioResponse postUsuario(@PathVariable UUID idRevenda, @Valid @RequestBody UsuarioRequest usuarioRequest);
 
-        @Operation(summary = "Lista todos os usuários da revenda", description = "Permite que administradores, proprietários ou gerentes listem todos os usuários da revenda informada.")
+        @Operation(summary = "Lista todos os usuários da revenda")
         @GetMapping
         @ResponseStatus(HttpStatus.OK)
         PageResponse<UsuarioListResponse> getTodosUsuarios(@PathVariable UUID idRevenda,
                         @RequestParam(defaultValue = "0") int page,
                         @RequestParam(defaultValue = "10") int size);
 
-        @Operation(summary = "Busca usuário da revenda", description = "Permite que administradores, proprietários ou gerentes busquem um usuário específico da revenda informada.")
+        @Operation(summary = "Busca usuário da revenda")
         @GetMapping(value = "/{idUsuario}")
         @ResponseStatus(HttpStatus.OK)
         UsuarioDetalhadoResponse getUsuarioAtravesId(@PathVariable UUID idRevenda, @PathVariable UUID idUsuario);
 
-        @Operation(summary = "Deleta usuário da revenda", description = "Permite que administradores, proprietários ou gerentes deletem um usuário específico da revenda informada.")
+        @Operation(summary = "Deleta usuário da revenda")
         @PreAuthorize("hasRole('ADMINISTRADOR' or 'PROPRIETARIO' or 'GERENTE')")
         @DeleteMapping(value = "/{idUsuario}")
         @ResponseStatus(HttpStatus.NO_CONTENT)
         void deletaUsuarioAtravesId(@PathVariable UUID idRevenda, @PathVariable UUID idUsuario);
 
-        @Operation(summary = "Altera usuário da revenda", description = "Permite que administradores, proprietários ou gerentes alterem um usuário específico da revenda informada.")
+        @Operation(summary = "Altera usuário da revenda")
         @PatchMapping(value = "/{idUsuario}")
         @ResponseStatus(HttpStatus.NO_CONTENT)
         void patchAlteraUsuario(@PathVariable UUID idRevenda, @PathVariable UUID idUsuario,
                         @Valid @RequestBody UsuarioAlteracaoRequest usuarioAlteracaoRequest);
-        @Operation(summary = "Altera usuário admin", description = "Permite que administradores alterem um usuário específico(Administrador).")
+        @Operation(summary = "Altera usuário admin")
         @PreAuthorize("hasRole('ADMINISTRADOR')")
         @PatchMapping("/alterar-admin")
         @ResponseStatus(HttpStatus.NO_CONTENT)

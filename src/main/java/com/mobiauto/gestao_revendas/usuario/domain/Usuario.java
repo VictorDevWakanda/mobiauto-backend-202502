@@ -72,5 +72,6 @@ public class Usuario {
         this.cargo = usuarioAlteracaoRequest.getCargo();
         this.senha = usuarioAlteracaoRequest.getSenha();
     }
+    
 
 }

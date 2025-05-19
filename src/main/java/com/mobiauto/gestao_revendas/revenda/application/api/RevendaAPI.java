@@ -23,28 +23,28 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/revenda")
 public interface RevendaAPI {
 
-    @Operation(summary = "Cria uma nova revenda", description = "Permite que administradores ou proprietários criem uma nova revenda.")
+    @Operation(summary = "Cria uma nova revenda")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     RevendaResponse postRevenda(@Valid @RequestBody RevendaRequest revendaRequest);
 
-    @Operation(summary = "Lista todas as revendas", description = "Permite que usuarios listem todas as revendas.")
+    @Operation(summary = "Lista todas as revendas")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     PageResponse<RevendaListResponse> getTodasRevendas(@RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size);
 
-    @Operation(summary = "Busca revenda por ID", description = "Permite que administradores ou proprietários busquem uma revenda específica pelo ID.")
+    @Operation(summary = "Busca revenda por ID")
     @GetMapping(value = "/{idRevenda}")
     @ResponseStatus(HttpStatus.OK)
     RevendaDetalhadoResponse getRevendaPorId(@PathVariable UUID idRevenda);
 
-    @Operation(summary = "Deleta revenda por ID", description = "Permite que administradores ou proprietários deletem uma revenda específica pelo ID.")
+    @Operation(summary = "Deleta revenda por ID")
     @DeleteMapping(value = "/{idRevenda}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteRevendaPorId(@PathVariable UUID idRevenda);
 
-    @Operation(summary = "Altera revenda por ID", description = "Permite que administradores ou proprietários alterem uma revenda específica pelo ID.")
+    @Operation(summary = "Altera revenda por ID")
     @PatchMapping(value = "/{idRevenda}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void patchAlteraRevenda(@PathVariable UUID idRevenda,

@@ -24,33 +24,33 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/revenda/{idRevenda}/oportunidade")
 public interface OportunidadeAPI {
 
-    @Operation(summary = "Cria uma nova oportunidade", description = "Permite que administradores ou proprietários criem uma nova oportunidade.")
+    @Operation(summary = "Cria uma nova oportunidade")
     @PreAuthorize("isAuthenticated()")
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     OportunidadeResponse postOportunidade(@PathVariable UUID idRevenda,
             @Valid @RequestBody OportunidadeRequest oportunidadeRequest);
 
-    @Operation(summary = "Lista as oportunidades", description = "Permite que administradores ou proprietários listem as oportunidades.")
+    @Operation(summary = "Lista as oportunidades")
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     PageResponse<OportunidadeListResponse> getOportunidades(@PathVariable UUID idRevenda,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size);
 
-    @Operation(summary = "Atualiza oportunidade por ID", description = "Permite que administradores ou proprietários atualizem uma oportunidade específica pelo ID.")
+    @Operation(summary = "Atualiza oportunidade por ID")
     @PatchMapping("/{idOportunidade}")
     @ResponseStatus(HttpStatus.OK)
     void patchOportunidade(@PathVariable UUID idRevenda,
             @PathVariable UUID idOportunidade,
             @Valid @RequestBody OportunidadeRequest oportunidadeRequest);
 
-    @Operation(summary = "Deleta oportunidade por ID", description = "Permite que usuarios deletem uma oportunidade específica.")
+    @Operation(summary = "Deleta oportunidade por ID")
     @DeleteMapping("/{idOportunidade}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     void deleteOportunidade(@PathVariable UUID idRevenda, @PathVariable UUID idOportunidade);
 
-    @Operation(summary = "Transfere oportunidade por ID", description = "Permite que administradores ou proprietários transfiram uma oportunidade específica para outro usuario.")
+    @Operation(summary = "Transfere oportunidade por ID")
     @PatchMapping("/transfere/{idOportunidade}")
     @ResponseStatus(HttpStatus.OK)
     void patchTransfereOportunidade(@PathVariable UUID idRevenda,
