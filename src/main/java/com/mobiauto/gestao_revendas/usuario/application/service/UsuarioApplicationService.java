@@ -1,7 +1,6 @@
 package com.mobiauto.gestao_revendas.usuario.application.service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
@@ -87,7 +86,8 @@ public class UsuarioApplicationService implements UsuarioService {
     public Page<UsuarioListResponse> buscaTodosUsuarios(UUID idRevenda, int page, int size) {
         log.info("[Inicia] UsuarioApplicationService - buscaTodosUsuarios");
         revendaService.buscaRevendaPorId(idRevenda);
-        Page<Usuario> usuarios = usuarioRepository.buscaTodosUsuarios(idRevenda, PageRequest.of(page, size, Sort.by("nomeCompleto").ascending()));
+        Page<Usuario> usuarios = usuarioRepository.buscaTodosUsuarios(idRevenda,
+                PageRequest.of(page, size, Sort.by("nomeCompleto").ascending()));
         log.info("[Finaliza] UsuarioApplicationService - buscaTodosUsuarios");
         return UsuarioListResponse.converte(usuarios);
     }
@@ -115,15 +115,28 @@ public class UsuarioApplicationService implements UsuarioService {
         log.info("[Inicia] UsuarioApplicationService - patchAlteraUsuario");
         revendaService.buscaRevendaPorId(idRevenda);
         Usuario usuario = usuarioRepository.buscaUsuarioAtravesId(idUsuario);
-        usuarioAutenticado(usuario);
-        usuario.altera(usuarioAlteracaoRequest);
+        Usuario usuarioAutenticado = getUsuarioAutenticado();
+        validarPermissaoAlteracao(usuarioAutenticado);
+        UsuarioAlteracaoRequest alteracaoRequest = requestCriptografada(usuarioAlteracaoRequest);
+        usuario.altera(alteracaoRequest);
         usuarioRepository.salva(usuario);
         log.info("[Finaliza] UsuarioApplicationService - patchAlteraUsuario");
     }
 
-    private void usuarioAutenticado(Usuario usuario) {
-        if (!usuario.getCargo().equals(Cargo.ADMINISTRADOR) &&
-                !usuario.getCargo().equals(Cargo.PROPRIETARIO)) {
+    private UsuarioAlteracaoRequest requestCriptografada(UsuarioAlteracaoRequest request) {
+        if (request.getSenha() != null && !request.getSenha().isBlank()) {
+            return new UsuarioAlteracaoRequest(
+                    request.getNomeCompleto(),
+                    request.getEmail(),
+                    request.getCargo(),
+                    passwordEncoder.encode(request.getSenha()));
+        }
+        return request;
+    }
+
+    private void validarPermissaoAlteracao(Usuario usuarioAutenticado) {
+        if (!usuarioAutenticado.getCargo().equals(Cargo.ADMINISTRADOR) &&
+                !usuarioAutenticado.getCargo().equals(Cargo.PROPRIETARIO)) {
             throw APIException.build(HttpStatus.UNAUTHORIZED, "Apenas superiores podem alterar dados de usuario.");
         }
     }
@@ -137,6 +150,7 @@ public class UsuarioApplicationService implements UsuarioService {
                 .orElseThrow(() -> APIException.build(HttpStatus.NOT_FOUND, "Usuário administrador não encontrado"));
 
         // Atualiza os dados do administrador
+        usuarioAdmin.setEmail(usuarioAlteracaoRequest.getEmail());
         usuarioAdmin.setNomeCompleto(usuarioAlteracaoRequest.getNomeCompleto());
         usuarioAdmin.setSenha(passwordEncoder.encode(usuarioAlteracaoRequest.getSenha()));
 
@@ -145,8 +159,14 @@ public class UsuarioApplicationService implements UsuarioService {
     }
 
     public List<Usuario> buscaAssistentesPorRevenda(UUID idRevenda) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'buscaAssistentesPorRevenda'");
+        log.info("[Inicia] UsuarioApplicationService - buscaAssistentesPorRevenda");
+        revendaService.buscaRevendaPorId(idRevenda);
+        List<Usuario> assistentes = usuarioRepository.buscaAssistentesPorRevenda(idRevenda);
+        if (assistentes.isEmpty()) {
+            throw APIException.build(HttpStatus.NOT_FOUND, "Nenhum assistente encontrado para a revenda.");
+        }
+        log.info("[Finaliza] UsuarioApplicationService - buscaAssistentesPorRevenda");
+        return assistentes;
     }
 
 }

@@ -17,6 +17,7 @@ import com.mobiauto.gestao_revendas.oportunidade.application.api.OportunidadeReq
 import com.mobiauto.gestao_revendas.oportunidade.application.api.OportunidadeResponse;
 import com.mobiauto.gestao_revendas.oportunidade.application.repository.OportunidadeRepository;
 import com.mobiauto.gestao_revendas.oportunidade.domain.Oportunidade;
+import com.mobiauto.gestao_revendas.oportunidade.domain.Veiculo;
 import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
 import com.mobiauto.gestao_revendas.revenda.repository.RevendaRepository;
 import com.mobiauto.gestao_revendas.usuario.application.repository.UsuarioRepository;
@@ -42,11 +43,18 @@ public class OportunidadeApplicationService implements OportunidadeService {
         if (oportunidadeRequest.getCliente() == null || oportunidadeRequest.getVeiculo() == null) {
             throw APIException.build(HttpStatus.BAD_REQUEST, "Dados do cliente e veículo são obrigatórios.");
         }
-        // escolhe Assistente Para Oportunidade (idRevenda);
+        Veiculo veiculo = oportunidadeRequest.getVeiculo();
+        if (veiculo.getMarca() == null || veiculo.getMarca().isBlank()
+                || veiculo.getModelo() == null || veiculo.getModelo().isBlank()
+                || veiculo.getVersao() == null || veiculo.getVersao().isBlank()
+                || veiculo.getAnoModelo() == 0) {
+            throw APIException.build(HttpStatus.BAD_REQUEST, "Todos os campos do veículo são obrigatórios.");
+        }
         Revenda revenda = revendaRepository.buscaRevendaPorId(idRevenda);
 
         Usuario responsavel;
-        if (oportunidadeRequest.getResponsavel() == null) {
+        if (oportunidadeRequest.getResponsavel() == null
+                || oportunidadeRequest.getResponsavel().getIdUsuario() == null) {
             responsavel = escolheAssistenteParaOportunidade(idRevenda);
         } else {
             responsavel = usuarioRepository.buscaUsuarioAtravesId(
@@ -89,8 +97,7 @@ public class OportunidadeApplicationService implements OportunidadeService {
         usuarioApplicationService.validaUsuario(usuarioAutenticado, idRevenda);
 
         Revenda revenda = revendaRepository.buscaRevendaPorId(idRevenda);
-        Usuario responsavel = usuarioRepository.buscaUsuarioAtravesId(
-                oportunidadeRequest.getResponsavel().getIdUsuario());
+        Usuario responsavel = resolveResponsavelParaOportunidade(idRevenda, oportunidadeRequest);
 
         Oportunidade oportunidade = oportunidadeRepository.buscaOportunidadePorId(idOportunidade);
         validaPermissaoEdicao(usuarioAutenticado, oportunidade);
@@ -122,7 +129,8 @@ public class OportunidadeApplicationService implements OportunidadeService {
         throw APIException.build(HttpStatus.FORBIDDEN, "Você não tem permissão para editar/excluir esta oportunidade.");
     }
 
-    public void transferirOportunidade(UUID idRevenda, UUID idOportunidade, UUID idNovoResponsavel) {
+    @Override
+    public void transfereOportunidade(UUID idRevenda, UUID idOportunidade, OportunidadeRequest oportunidadeRequest) {
         Usuario usuarioAutenticado = usuarioApplicationService.getUsuarioAutenticado();
         Oportunidade oportunidade = oportunidadeRepository.buscaOportunidadePorId(idOportunidade);
         if (!(usuarioAutenticado.getCargo().name().equals("GERENTE")
@@ -131,9 +139,20 @@ public class OportunidadeApplicationService implements OportunidadeService {
             throw APIException.build(HttpStatus.FORBIDDEN,
                     "Apenas gerente ou proprietário podem transferir oportunidades.");
         }
-        Usuario novoResponsavel = usuarioRepository.buscaUsuarioAtravesId(idNovoResponsavel);
+        Usuario novoResponsavel = resolveResponsavelParaOportunidade(idRevenda, oportunidadeRequest);
+        if (!novoResponsavel.getRevenda().getIdRevenda().equals(idRevenda)) {
+            throw APIException.build(HttpStatus.BAD_REQUEST, "Responsável não pertence à revenda.");
+        }
         oportunidade.setResponsavel(novoResponsavel);
         oportunidade.setDataAtribuicao(LocalDateTime.now());
         oportunidadeRepository.salva(oportunidade);
+    }
+
+    private Usuario resolveResponsavelParaOportunidade(UUID idRevenda, OportunidadeRequest oportunidadeRequest) {
+        if (oportunidadeRequest.getResponsavel() == null
+                || oportunidadeRequest.getResponsavel().getIdUsuario() == null) {
+            return escolheAssistenteParaOportunidade(idRevenda);
+        }
+        return usuarioRepository.buscaUsuarioAtravesId(oportunidadeRequest.getResponsavel().getIdUsuario());
     }
 }

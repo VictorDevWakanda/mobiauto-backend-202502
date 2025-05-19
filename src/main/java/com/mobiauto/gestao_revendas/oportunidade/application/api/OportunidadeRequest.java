@@ -9,9 +9,11 @@ import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
 import com.mobiauto.gestao_revendas.usuario.domain.Usuario;
 
 import jakarta.validation.constraints.NotNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Value;
 
 @Value
+@RequiredArgsConstructor
 public class OportunidadeRequest {
 
     @NotNull

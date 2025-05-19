@@ -36,7 +36,7 @@ CREATE TABLE IF NOT EXISTS oportunidade (
     veiculo_marca VARCHAR(50) NOT NULL,
     veiculo_modelo VARCHAR(50) NOT NULL,
     veiculo_versao VARCHAR(50) NOT NULL,
-    veiculo_ano_modelo INT NOT NULL,
+    veiculo_ano_modelo INT,
     cliente_nome VARCHAR(100) NOT NULL,
     cliente_email VARCHAR(20) NOT NULL,
     cliente_telefone VARCHAR(30) NOT NULL,

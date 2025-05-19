@@ -6,6 +6,7 @@ import com.mobiauto.gestao_revendas.revenda.domain.Revenda;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioAlteracaoRequest;
 import com.mobiauto.gestao_revendas.usuario.application.api.UsuarioRequest;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -30,7 +31,7 @@ import lombok.NoArgsConstructor;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(columnDefinition = "CHAR(36)",name = "id_usuario", updatable = false, unique = true, nullable = false)
+    @Column(columnDefinition = "CHAR(36)", name = "id_usuario", updatable = false, unique = true, nullable = false)
     private UUID idUsuario;
 
     @ManyToOne
@@ -49,12 +50,13 @@ public class Usuario {
 
     @NotNull
     @Enumerated(EnumType.STRING)
+    @Schema(description = "Cargo do usuário", allowableValues = { "PROPRIETARIO", "ADMINISTRADOR", "GERENTE",
+            "ASSISTENTE" })
     private Cargo cargo;
 
     @NotBlank
     @Column(length = 100)
     private String senha;
-
 
     public Usuario(Revenda revenda, UsuarioRequest usuarioRequest) {
         this.revenda = revenda;
