@@ -323,7 +323,7 @@ Acesse a documentação interativa da API em:
 
 - **Problema não resolvido:** Ainda não foi possível resolver o erro `Caused by: java.sql.SQLException: Field 'veiculo_marca' doesn't have a default value` relacionado à validação feita no método `criaOportunidade`.  
   Esse problema pode ser contornado temporariamente realizando um insert manual no banco de dados, conforme exemplo comentado no arquivo [`init.sql`](src/main/resources/init.sql).  
-  A correção definitiva para essa validação ainda está pendente e deve ser tratada futuramente.
+  A correção definitiva para essa validação ainda está pendente e deve ser tratada futuramente(Corrigido).
 
 ---
 
