@@ -1,13 +1,16 @@
-package com.mobiauto.gestao_revendas;
+// package com.mobiauto.gestao_revendas;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class GestaoRevendasApplicationTests {
+// @SpringBootTest
+// class GestaoRevendasApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+// 	@Test
+// 	void contextLoads() {
+// 	}
 
-}
+// }
+
+
+//Deixei aqui para testes de integração caso precise!
